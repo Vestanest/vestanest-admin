@@ -38,7 +38,7 @@ class PropertyComparison extends Model
     {
         return $this->belongsToMany(Property::class, 'property_comparison_items', 'comparison_id', 'property_id')
                     ->withPivot('order')
-                    ->orderBy('pivot_order');
+                    ->orderBy('property_comparison_items.order');
     }
 
 

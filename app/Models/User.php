@@ -139,6 +139,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the OTPs for this user.
+     */
+    public function otps()
+    {
+        return $this->hasMany(Otp::class, 'email', 'email');
+    }
+
+    /**
      * Check if the user is an admin.
      */
     public function isAdmin(): bool

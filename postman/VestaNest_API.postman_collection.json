@@ -1,0 +1,204 @@
+{
+  "info": {
+    "name": "VestaNest API",
+    "_postman_id": "8c3c2c60-3d1a-4f9d-b4c0-vestanest-api-collection",
+    "description": "Comprehensive Postman collection for VestaNest API v1 endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": { "major": 1, "minor": 0, "patch": 0 }
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/register", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\",\n  \"phone\": "+233200000000"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify Email (OTP)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/verify-email", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","verify-email"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"john@example.com\",\n  \"otp_code\": \"123456\"\n}" }
+          }
+        },
+        {
+          "name": "Resend Email OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/resend-email-otp", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","resend-email-otp"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"john@example.com\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/login", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","login"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"agent@vestanest.com\",\n  \"password\": \"password\"\n}" }
+          }
+        },
+        {
+          "name": "Profile (Get)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/profile", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","profile"] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/profile", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","profile"] },
+            "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Jane\",\n  \"last_name\": \"Doe\",\n  \"phone\": "+233200000001"\n}" }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/change-password", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","change-password"] },
+            "body": { "mode": "raw", "raw": "{\n  \"current_password\": \"password\",\n  \"password\": \"newpassword\",\n  \"password_confirmation\": \"newpassword\"\n}" }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/forgot-password", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","forgot-password"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"john@example.com\"\n}" }
+          }
+        },
+        {
+          "name": "Reset Password (OTP)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/reset-password", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","reset-password"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"john@example.com\",\n  \"otp_code\": \"123456\",\n  \"password\": \"newpassword\",\n  \"password_confirmation\": \"newpassword\"\n}" }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "{{baseUrl}}/api/v1/auth/logout", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","logout"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "item": [
+        { "name": "List Properties", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/properties?per_page=10&sort_by=created_at_desc", "host": ["{{baseUrl}}"], "path": ["api","v1","properties"], "query": [ { "key": "per_page", "value": "10" }, { "key": "sort_by", "value": "created_at_desc" } ] } } },
+        { "name": "Show Property", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/properties/1", "host": ["{{baseUrl}}"], "path": ["api","v1","properties","1"] } } },
+        { "name": "Featured Properties", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/properties/featured?limit=6", "host": ["{{baseUrl}}"], "path": ["api","v1","properties","featured"], "query": [ { "key": "limit", "value": "6" } ] } } },
+        { "name": "Property Statistics", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/properties/statistics", "host": ["{{baseUrl}}"], "path": ["api","v1","properties","statistics"] } } }
+      ]
+    },
+    {
+      "name": "Amenities",
+      "item": [
+        { "name": "List Amenities", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/amenities?per_page=50", "host": ["{{baseUrl}}"], "path": ["api","v1","amenities"], "query": [ { "key": "per_page", "value": "50" } ] } } },
+        { "name": "Popular Amenities", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/amenities/popular?limit=10", "host": ["{{baseUrl}}"], "path": ["api","v1","amenities","popular"], "query": [ { "key": "limit", "value": "10" } ] } } },
+        { "name": "Amenity by ID", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/amenities/1", "host": ["{{baseUrl}}"], "path": ["api","v1","amenities","1"] } } }
+      ]
+    },
+    {
+      "name": "Property Views",
+      "item": [
+        {
+          "name": "Record View",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/api/v1/property-views", "host": ["{{baseUrl}}"], "path": ["api","v1","property-views"] },
+            "body": { "mode": "raw", "raw": "{\n  \"property_id\": 1,\n  \"user_agent\": \"Postman\"\n}" }
+          }
+        },
+        { "name": "Views for Property", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-views/property/1?per_page=20", "host": ["{{baseUrl}}"], "path": ["api","v1","property-views","property","1"], "query": [ { "key": "per_page", "value": "20" } ] } } },
+        { "name": "My Views (auth)", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-views/my-views", "host": ["{{baseUrl}}"], "path": ["api","v1","property-views","my-views"] } } },
+        { "name": "Views Statistics", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-views/statistics", "host": ["{{baseUrl}}"], "path": ["api","v1","property-views","statistics"] } } }
+      ]
+    },
+    {
+      "name": "Newsletter",
+      "item": [
+        { "name": "Subscribe", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/newsletter/subscribe", "host": ["{{baseUrl}}"], "path": ["api","v1","newsletter","subscribe"] }, "body": { "mode": "raw", "raw": "{\n  \"email\": \"test@example.com\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"preferences\": {\n    \"frequency\": \"weekly\",\n    \"property_types\": [\"apartment\", \"house\"]\n  }\n}" } } },
+        { "name": "Status", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/newsletter/status?email=test@example.com", "host": ["{{baseUrl}}"], "path": ["api","v1","newsletter","status"], "query": [ { "key": "email", "value": "test@example.com" } ] } } },
+        { "name": "Update Preferences", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/newsletter/update-preferences", "host": ["{{baseUrl}}"], "path": ["api","v1","newsletter","update-preferences"] }, "body": { "mode": "raw", "raw": "{\n  \"email\": \"test@example.com\",\n  \"preferences\": {\n    \"frequency\": \"monthly\",\n    \"locations\": [\"Accra\"],\n    \"price_range\": [500000, 2000000]\n  }\n}" } } },
+        { "name": "Unsubscribe", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/newsletter/unsubscribe", "host": ["{{baseUrl}}"], "path": ["api","v1","newsletter","unsubscribe"] }, "body": { "mode": "raw", "raw": "{\n  \"email\": \"test@example.com\"\n}" } } }
+      ]
+    },
+    {
+      "name": "Comparisons (auth)",
+      "item": [
+        { "name": "List", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons"] } } },
+        { "name": "Create", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"My Comparison\",\n  \"property_ids\": [1,2,3]\n}" } } },
+        { "name": "Show", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons/1", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons","1"] } } },
+        { "name": "Update Name", "request": { "method": "PUT", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons/1", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons","1"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Comparison\"\n}" } } },
+        { "name": "Add Property", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons/1/add-property", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons","1","add-property"] }, "body": { "mode": "raw", "raw": "{\n  \"property_id\": 4\n}" } } },
+        { "name": "Remove Property", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons/1/remove-property", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons","1","remove-property"] }, "body": { "mode": "raw", "raw": "{\n  \"property_id\": 4\n}" } } },
+        { "name": "Delete", "request": { "method": "DELETE", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/property-comparisons/1", "host": ["{{baseUrl}}"], "path": ["api","v1","property-comparisons","1"] } } }
+      ]
+    },
+    {
+      "name": "Communication",
+      "item": [
+        { "name": "Contact Messages - Create", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/contact-messages", "host": ["{{baseUrl}}"], "path": ["api","v1","contact-messages"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"Visitor\",\n  \"email\": \"visitor@example.com\",\n  \"subject\": \"Hello\",\n  \"message\": \"Just saying hi\"\n}" } } },
+        { "name": "Contact Messages - List", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/contact-messages?per_page=20", "host": ["{{baseUrl}}"], "path": ["api","v1","contact-messages"], "query": [ { "key": "per_page", "value": "20" } ] } } },
+        { "name": "Inquiries - Create", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/inquiries", "host": ["{{baseUrl}}"], "path": ["api","v1","inquiries"] }, "body": { "mode": "raw", "raw": "{\n  \"property_id\": 1,\n  \"name\": \"Kofi\",\n  \"email\": \"kofi@example.com\",\n  \"message\": \"Can I get more info?\",\n  \"inquiry_type\": \"information\"\n}" } } },
+        { "name": "Inquiries - List", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/inquiries?per_page=20", "host": ["{{baseUrl}}"], "path": ["api","v1","inquiries"], "query": [ { "key": "per_page", "value": "20" } ] } } },
+        { "name": "Reviews - Create (auth)", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/v1/reviews", "host": ["{{baseUrl}}"], "path": ["api","v1","reviews"] }, "body": { "mode": "raw", "raw": "{\n  \"property_id\": 1,\n  \"rating\": 5,\n  \"title\": \"Great\",\n  \"comment\": \"Loved it!\"\n}" } } },
+        { "name": "Reviews - For Property", "request": { "method": "GET", "header": [ { "key": "Accept", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/reviews/property/1?per_page=10", "host": ["{{baseUrl}}"], "path": ["api","v1","reviews","property","1"], "query": [ { "key": "per_page", "value": "10" } ] } } },
+        { "name": "Schedule Viewing - Create", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/schedule-viewings", "host": ["{{baseUrl}}"], "path": ["api","v1","schedule-viewings"] }, "body": { "mode": "raw", "raw": "{\n  \"property_id\": 1,\n  \"full_name\": \"Ama Boateng\",\n  \"email\": \"ama@example.com\",\n  \"phone_number\": \"+23320000000\",\n  \"preferred_date\": \"2025-09-21\",\n  \"preferred_time\": \"10:00\",\n  \"notes\": \"Weekend preferred\"\n}" } } },
+        { "name": "Contact Agent - Create", "request": { "method": "POST", "header": [ { "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/v1/contact-agents", "host": ["{{baseUrl}}"], "path": ["api","v1","contact-agents"] }, "body": { "mode": "raw", "raw": "{\n  \"property_id\": 1,\n  \"full_name\": \"Yaw Mensah\",\n  \"email\": \"yaw@example.com\",\n  \"phone_number\": \"+233244111111\",\n  \"message\": \"I want to speak to the agent.\"\n}" } } }
+      ]
+    }
+  ]
+}
+
+
