@@ -8,6 +8,9 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InquiryReceived;
+use App\Mail\AdminNewInquiry;
 
 class InquiryController extends Controller
 {
@@ -48,6 +51,61 @@ class InquiryController extends Controller
         ]);
 
         $inquiry->load('property');
+
+        // Send email acknowledgment
+        try {
+            Mail::to($inquiry->email)->send(new InquiryReceived([
+                'id' => $inquiry->id,
+                'property' => [
+                    'id' => $inquiry->property->id,
+                    'title' => $inquiry->property->title,
+                    'location' => $inquiry->property->location,
+                ],
+                'name' => $inquiry->name,
+                'email' => $inquiry->email,
+                'phone' => $inquiry->phone,
+                'message' => $inquiry->message,
+                'inquiry_type' => $inquiry->inquiry_type,
+                'preferred' => $inquiry->formatted_preferred_date_time,
+            ]));
+            // Notify admin
+            $adminEmail = config('mail.admin');
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new AdminNewInquiry([
+                    'id' => $inquiry->id,
+                    'property' => [
+                        'id' => $inquiry->property->id,
+                        'title' => $inquiry->property->title,
+                        'location' => $inquiry->property->location,
+                    ],
+                    'name' => $inquiry->name,
+                    'email' => $inquiry->email,
+                    'phone' => $inquiry->phone,
+                    'message' => $inquiry->message,
+                    'inquiry_type' => $inquiry->inquiry_type,
+                    'preferred' => $inquiry->formatted_preferred_date_time,
+                ]));
+            }
+            // Notify agent if available
+            if ($inquiry->property && $inquiry->property->agent && $inquiry->property->agent->email) {
+                Mail::to($inquiry->property->agent->email)->send(new AdminNewInquiry([
+                    'id' => $inquiry->id,
+                    'property' => [
+                        'id' => $inquiry->property->id,
+                        'title' => $inquiry->property->title,
+                        'location' => $inquiry->property->location,
+                    ],
+                    'name' => $inquiry->name,
+                    'email' => $inquiry->email,
+                    'phone' => $inquiry->phone,
+                    'message' => $inquiry->message,
+                    'inquiry_type' => $inquiry->inquiry_type,
+                    'preferred' => $inquiry->formatted_preferred_date_time,
+                ]));
+            }
+        } catch (\Exception $e) {
+            // Silently ignore email errors in API response
+        }
 
         return response()->json([
             'success' => true,

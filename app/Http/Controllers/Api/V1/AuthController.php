@@ -49,6 +49,9 @@ class AuthController extends Controller
             'is_active' => true,
         ]);
 
+        // Assign 'user' role to new registrations
+        $user->assignRole('user');
+
         // Generate and send OTP for email verification
         $otp = Otp::createOtp($user->email, 'email_verification', 10);
         $this->sendOtpEmail($user->email, $otp->otp_code, 'Email Verification');

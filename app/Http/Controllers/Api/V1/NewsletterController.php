@@ -7,6 +7,9 @@ use App\Models\NewsletterSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Mail\NewsletterSubscriptionConfirmed;
 use Carbon\Carbon;
 
 class NewsletterController extends Controller
@@ -53,6 +56,21 @@ class NewsletterController extends Controller
                     'preferences' => $request->preferences ?? $existingSubscription->preferences,
                 ]);
 
+                // Send welcome back email
+                try {
+                    Mail::to($existingSubscription->email)->send(new NewsletterSubscriptionConfirmed([
+                        'id' => $existingSubscription->id,
+                        'email' => $existingSubscription->email,
+                        'first_name' => $existingSubscription->first_name,
+                        'last_name' => $existingSubscription->last_name,
+                        'preferences' => $existingSubscription->preferences,
+                        'subscribed_at' => $existingSubscription->subscribed_at,
+                    ]));
+                    Log::info("Newsletter welcome email sent successfully to: {$existingSubscription->email}");
+                } catch (\Exception $e) {
+                    Log::error("Failed to send newsletter welcome email to: {$existingSubscription->email} - Error: " . $e->getMessage());
+                }
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Successfully resubscribed to our newsletter',
@@ -80,6 +98,21 @@ class NewsletterController extends Controller
             'preferences' => $request->preferences ?? [],
             'subscribed_at' => Carbon::now(),
         ]);
+
+        // Send welcome email
+        try {
+            Mail::to($subscription->email)->send(new NewsletterSubscriptionConfirmed([
+                'id' => $subscription->id,
+                'email' => $subscription->email,
+                'first_name' => $subscription->first_name,
+                'last_name' => $subscription->last_name,
+                'preferences' => $subscription->preferences,
+                'subscribed_at' => $subscription->subscribed_at,
+            ]));
+            Log::info("Newsletter welcome email sent successfully to: {$subscription->email}");
+        } catch (\Exception $e) {
+            Log::error("Failed to send newsletter welcome email to: {$subscription->email} - Error: " . $e->getMessage());
+        }
 
         return response()->json([
             'success' => true,

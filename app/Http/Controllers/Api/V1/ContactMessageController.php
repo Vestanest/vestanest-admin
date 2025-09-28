@@ -7,6 +7,9 @@ use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMessageReceived;
+use App\Mail\AdminNewContactMessage;
 
 class ContactMessageController extends Controller
 {
@@ -40,6 +43,33 @@ class ContactMessageController extends Controller
             'ip_address' => $request->ip(),
             'user_agent' => $request->header('User-Agent'),
         ]);
+
+        // Send acknowledgment email
+        try {
+            Mail::to($contact->email)->send(new ContactMessageReceived([
+                'id' => $contact->id,
+                'name' => $contact->name,
+                'email' => $contact->email,
+                'phone' => $contact->phone,
+                'subject' => $contact->subject,
+                'message' => $contact->message,
+                'message_type' => $contact->message_type,
+            ]));
+            $adminEmail = config('mail.admin');
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new AdminNewContactMessage([
+                    'id' => $contact->id,
+                    'name' => $contact->name,
+                    'email' => $contact->email,
+                    'phone' => $contact->phone,
+                    'subject' => $contact->subject,
+                    'message' => $contact->message,
+                    'message_type' => $contact->message_type,
+                ]));
+            }
+        } catch (\Exception $e) {
+            // Ignore email failures
+        }
 
         return response()->json([
             'success' => true,

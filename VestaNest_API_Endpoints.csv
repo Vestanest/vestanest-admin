@@ -1,0 +1,46 @@
+Category,Name,Method,URL,Description,Auth Required,Body Parameters
+Auth,Register,POST,{{baseUrl}}/api/v1/auth/register,Register a new user,No,"first_name, last_name, email, password, password_confirmation, phone"
+Auth,Verify Email (OTP),POST,{{baseUrl}}/api/v1/auth/verify-email,Verify email with OTP code,No,email, otp_code
+Auth,Resend Email OTP,POST,{{baseUrl}}/api/v1/auth/resend-email-otp,Resend OTP for email verification,No,email
+Auth,Login,POST,{{baseUrl}}/api/v1/auth/login,Login user with credentials,No,email, password
+Auth,Profile (Get),GET,{{baseUrl}}/api/v1/auth/profile,Get authenticated user profile,Yes,None
+Auth,Update Profile,PUT,{{baseUrl}}/api/v1/auth/profile,Update user profile information,Yes,first_name, last_name, phone
+Auth,Change Password,POST,{{baseUrl}}/api/v1/auth/change-password,Change user password,Yes,current_password, new_password, password_confirmation
+Auth,Forgot Password,POST,{{baseUrl}}/api/v1/auth/forgot-password,Request password reset OTP,No,email
+Auth,Reset Password (OTP),POST,{{baseUrl}}/api/v1/auth/reset-password,Reset password with OTP,No,email, otp_code, password, password_confirmation
+Auth,Logout,POST,{{baseUrl}}/api/v1/auth/logout,Logout user,Yes,None
+Properties,List Properties,GET,{{baseUrl}}/api/v1/properties,Get paginated list of properties,No,per_page, sort_by
+Properties,Show Property,GET,{{baseUrl}}/api/v1/properties/{id},Get specific property details,No,None
+Properties,Featured Properties,GET,{{baseUrl}}/api/v1/properties/featured,Get featured properties,No,limit
+Properties,Property Statistics,GET,{{baseUrl}}/api/v1/properties/statistics,Get property statistics,No,None
+Amenities,List Amenities,GET,{{baseUrl}}/api/v1/amenities,Get paginated list of amenities,No,per_page
+Amenities,Popular Amenities,GET,{{baseUrl}}/api/v1/amenities/popular,Get popular amenities,No,limit
+Amenities,Amenity by ID,GET,{{baseUrl}}/api/v1/amenities/{id},Get specific amenity details,No,None
+Property Views,Record View,POST,{{baseUrl}}/api/v1/property-views,Record a property view,No,property_id, user_agent
+Property Views,Views for Property,GET,{{baseUrl}}/api/v1/property-views/property/{id},Get views for specific property,No,per_page
+Property Views,My Views (auth),GET,{{baseUrl}}/api/v1/property-views/my-views,Get authenticated user's views,Yes,None
+Property Views,Views Statistics,GET,{{baseUrl}}/api/v1/property-views/statistics,Get property views statistics,No,None
+Newsletter,Subscribe,POST,{{baseUrl}}/api/v1/newsletter/subscribe,Subscribe to newsletter,No,email, first_name, last_name, preferences
+Newsletter,Status,GET,{{baseUrl}}/api/v1/newsletter/status,Check subscription status,No,email
+Newsletter,Update Preferences,POST,{{baseUrl}}/api/v1/newsletter/update-preferences,Update subscription preferences,No,email, preferences
+Newsletter,Unsubscribe,POST,{{baseUrl}}/api/v1/newsletter/unsubscribe,Unsubscribe from newsletter,No,email
+Comparisons,List,GET,{{baseUrl}}/api/v1/property-comparisons,Get user's property comparisons,Yes,None
+Comparisons,Create,POST,{{baseUrl}}/api/v1/property-comparisons,Create new property comparison,Yes,name, property_ids
+Comparisons,Show,GET,{{baseUrl}}/api/v1/property-comparisons/{id},Get specific comparison details,Yes,None
+Comparisons,Update Name,PUT,{{baseUrl}}/api/v1/property-comparisons/{id},Update comparison name,Yes,name
+Comparisons,Add Property,POST,{{baseUrl}}/api/v1/property-comparisons/{id}/add-property,Add property to comparison,Yes,property_id
+Comparisons,Remove Property,POST,{{baseUrl}}/api/v1/property-comparisons/{id}/remove-property,Remove property from comparison,Yes,property_id
+Comparisons,Delete,DELETE,{{baseUrl}}/api/v1/property-comparisons/{id},Delete property comparison,Yes,None
+Communication,Contact Messages - Create,POST,{{baseUrl}}/api/v1/contact-messages,Create contact message,No,name, email, subject, message, message_type
+Communication,Contact Messages - List,GET,{{baseUrl}}/api/v1/contact-messages,List contact messages,No,per_page, status, message_type, search
+Communication,Inquiries - Create,POST,{{baseUrl}}/api/v1/inquiries,Create property inquiry,No,property_id, name, email, phone, message, inquiry_type, preferred_date, preferred_time
+Communication,Inquiries - List,GET,{{baseUrl}}/api/v1/inquiries,List property inquiries,No,per_page, status, inquiry_type, property_id
+Communication,Reviews - Create (auth),POST,{{baseUrl}}/api/v1/reviews,Create property review,Yes,property_id, rating, title, comment
+Communication,Reviews - For Property,GET,{{baseUrl}}/api/v1/reviews/property/{id},Get reviews for property,No,per_page
+Communication,Schedule Viewing - Create,POST,{{baseUrl}}/api/v1/schedule-viewings,Schedule property viewing,No,property_id, full_name, email, phone_number, preferred_date, preferred_time, notes
+Communication,Contact Agent - Create,POST,{{baseUrl}}/api/v1/contact-agents,Contact property agent,No,property_id, full_name, email, phone_number, message
+
+
+
+
+

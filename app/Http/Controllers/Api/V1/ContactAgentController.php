@@ -7,6 +7,9 @@ use App\Models\ContactAgent;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactAgentSent;
+use App\Mail\AdminNewContactAgent;
 
 class ContactAgentController extends Controller
 {
@@ -29,6 +32,31 @@ class ContactAgentController extends Controller
         }
 
         $contact = ContactAgent::create($validator->validated());
+
+        // Send acknowledgment email
+        try {
+            Mail::to($contact->email)->send(new ContactAgentSent([
+                'id' => $contact->id,
+                'property_id' => $contact->property_id,
+                'full_name' => $contact->full_name,
+                'email' => $contact->email,
+                'phone_number' => $contact->phone_number,
+                'message' => $contact->message,
+            ]));
+            $adminEmail = config('mail.admin');
+            if ($adminEmail) {
+                Mail::to($adminEmail)->send(new AdminNewContactAgent([
+                    'id' => $contact->id,
+                    'property_id' => $contact->property_id,
+                    'full_name' => $contact->full_name,
+                    'email' => $contact->email,
+                    'phone_number' => $contact->phone_number,
+                    'message' => $contact->message,
+                ]));
+            }
+        } catch (\Exception $e) {
+            // Ignore email failures
+        }
 
         return response()->json([
             'success' => true,
