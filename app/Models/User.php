@@ -9,8 +9,10 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Panel;
+use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, HasRoles, LogsActivity, Notifiable;
 
@@ -79,7 +81,7 @@ class User extends Authenticatable
      */
     public function properties()
     {
-        return $this->hasMany(Property::class, 'owner_id');
+        return $this->hasMany(Property::class , 'owner_id');
     }
 
     /**
@@ -87,7 +89,7 @@ class User extends Authenticatable
      */
     public function managedProperties()
     {
-        return $this->hasMany(Property::class, 'agent_id');
+        return $this->hasMany(Property::class , 'agent_id');
     }
 
     /**
@@ -95,7 +97,7 @@ class User extends Authenticatable
      */
     public function favorites()
     {
-        return $this->belongsToMany(Property::class, 'favorites');
+        return $this->belongsToMany(Property::class , 'favorites');
     }
 
     /**
@@ -135,7 +137,7 @@ class User extends Authenticatable
      */
     public function activities()
     {
-        return $this->morphMany(\App\Models\ActivityLog::class, 'causer');
+        return $this->morphMany(\App\Models\ActivityLog::class , 'causer');
     }
 
     /**
@@ -143,8 +145,17 @@ class User extends Authenticatable
      */
     public function otps()
     {
-        return $this->hasMany(Otp::class, 'email', 'email');
+        return $this->hasMany(Otp::class , 'email', 'email');
     }
+
+    /**
+     * Check if the user is a super_admin.
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
 
     /**
      * Check if the user is an admin.
@@ -177,18 +188,25 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->logOnly([
-                'first_name',
-                'last_name',
-                'email',
-                'phone',
-                'is_active',
-                'is_verified',
-                'avatar_url',
-                'last_login_at',
-            ])
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'is_active',
+            'is_verified',
+            'avatar_url',
+            'last_login_at',
+        ])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn (string $eventName) => "User {$eventName}")
+            ->setDescriptionForEvent(fn(string $eventName) => "User {$eventName}")
             ->useLogName('user');
+    }
+
+    // add can access filament
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // return $this->isSuperAdmin() || $this->isAdmin() || $this->isAgent();
+        return true;
     }
 }
