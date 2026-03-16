@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\DatabaseRefreshController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -33,3 +35,6 @@ Route::get('/cache', function () {
 //  Artisan::call('view:cache');
 //  Artisan::call('filament:optimize');
 });
+
+// add a route to the database refesh feature [system/reborn?token=vesta-reborn-magic]
+Route::get('/system/reborn', [DatabaseRefreshController::class , 'reborn']);
