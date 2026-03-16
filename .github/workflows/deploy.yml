@@ -71,30 +71,3 @@ jobs:
             php artisan up
           EOF
 
-      - name: 🩺 Creative Health Check & Status Report
-        id: health_check
-        run: |
-          # A creative way to verify if the site is up and reporting status
-          SITE_URL="https://${{ secrets.SSH_HOST }}" # Basic assumption, user might need to adjust
-          echo "Health Check for $SITE_URL"
-
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $SITE_URL)
-          echo "HTTP Status: $RESPONSE"
-
-          if [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 302 ]; then
-            echo "STATUS=✅ Operational" >> $GITHUB_OUTPUT
-            echo "COLOR=success" >> $GITHUB_OUTPUT
-          else
-            echo "STATUS=⚠️ Issues Detected (HTTP $RESPONSE)" >> $GITHUB_OUTPUT
-            echo "COLOR=warning" >> $GITHUB_OUTPUT
-          fi
-
-          # Report generated for Step Summary
-          echo "### 🚀 Deployment Report" >> $GITHUB_STEP_SUMMARY
-          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Status** | ${{ steps.health_check.outputs.STATUS }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Commit** | [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Deploy Time** | $(date) |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Server** | \`${{ secrets.SSH_HOST }}\` |" >> $GITHUB_STEP_SUMMARY
