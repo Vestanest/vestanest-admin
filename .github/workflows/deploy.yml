@@ -1,0 +1,101 @@
+name: Rocket Deploy (cPanel SSH) 🚀
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, hash, openssl, pcre, session, tokenizer, zip
+          coverage: none
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install PHP Dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+      - name: 📦 Install NPM Dependencies
+        run: npm ci
+
+      - name: 🔨 Build Assets
+        run: npm run build
+
+      - name: 🔐 Setup SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🚧 Put Site into Maintenance Mode
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.DEPLOY_PATH }} && php artisan down || true"
+
+      - name: 🚀 Deploy via Rsync
+        run: |
+          rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            --exclude='.git*' \
+            --exclude='.github*' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='storage/logs/*.log' \
+            --exclude='storage/framework/cache/data/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*.php' \
+            --exclude='.env' \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
+
+      - name: ⚙️ Post-Deployment Optimization
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ${{ secrets.DEPLOY_PATH }}
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan storage:link
+            php artisan up
+          EOF
+
+      - name: 🩺 Creative Health Check & Status Report
+        id: health_check
+        run: |
+          # A creative way to verify if the site is up and reporting status
+          SITE_URL="https://${{ secrets.SSH_HOST }}" # Basic assumption, user might need to adjust
+          echo "Health Check for $SITE_URL"
+
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $SITE_URL)
+          echo "HTTP Status: $RESPONSE"
+
+          if [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 302 ]; then
+            echo "STATUS=✅ Operational" >> $GITHUB_OUTPUT
+            echo "COLOR=success" >> $GITHUB_OUTPUT
+          else
+            echo "STATUS=⚠️ Issues Detected (HTTP $RESPONSE)" >> $GITHUB_OUTPUT
+            echo "COLOR=warning" >> $GITHUB_OUTPUT
+          fi
+
+          # Report generated for Step Summary
+          echo "### 🚀 Deployment Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Status** | ${{ steps.health_check.outputs.STATUS }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | [\`${{ github.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Deploy Time** | $(date) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Server** | \`${{ secrets.SSH_HOST }}\` |" >> $GITHUB_STEP_SUMMARY
