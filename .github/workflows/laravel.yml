@@ -10,7 +10,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
 
@@ -37,7 +37,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT || 22 }}
         script: |
-          cd ${{ secrets.DEPLOY_PATH }}
+          cd "${{ secrets.DEPLOY_PATH }}"
           php artisan down || true
           git pull origin main
           composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
