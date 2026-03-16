@@ -45,12 +45,12 @@ class PropertySeeder extends Seeder
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/luxury-penthouse-accra.jpg',
-                'images' => json_encode([
+                'images' => [
                     'properties/luxury-penthouse-accra-1.jpg',
                     'properties/luxury-penthouse-accra-2.jpg',
                     'properties/luxury-penthouse-accra-3.jpg',
                     'properties/luxury-penthouse-accra-4.jpg',
-                ]),
+                ],
             ],
             [
                 'title' => 'Modern Villa in East Legon',
@@ -79,11 +79,11 @@ class PropertySeeder extends Seeder
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/modern-villa-east-legon.jpg',
-                'images' => json_encode([
+                'images' => [
                     'properties/modern-villa-east-legon-1.jpg',
                     'properties/modern-villa-east-legon-2.jpg',
                     'properties/modern-villa-east-legon-3.jpg',
-                ]),
+                ],
             ],
             [
                 'title' => 'Beachfront House in Tema',
@@ -112,13 +112,13 @@ class PropertySeeder extends Seeder
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/beachfront-house-tema.jpg',
-                'images' => json_encode([
+                'images' => [
                     'properties/beachfront-house-tema-1.jpg',
                     'properties/beachfront-house-tema-2.jpg',
                     'properties/beachfront-house-tema-3.jpg',
                     'properties/beachfront-house-tema-4.jpg',
                     'properties/beachfront-house-tema-5.jpg',
-                ]),
+                ],
             ],
             [
                 'title' => 'Cozy Apartment in Osu',
@@ -147,10 +147,10 @@ class PropertySeeder extends Seeder
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/cozy-apartment-osu.jpg',
-                'images' => json_encode([
+                'images' => [
                     'properties/cozy-apartment-osu-1.jpg',
                     'properties/cozy-apartment-osu-2.jpg',
-                ]),
+                ],
             ],
             [
                 'title' => 'Commercial Office Space in Labadi',
@@ -179,11 +179,11 @@ class PropertySeeder extends Seeder
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/commercial-office-labadi.jpg',
-                'images' => json_encode([
+                'images' => [
                     'properties/commercial-office-labadi-1.jpg',
                     'properties/commercial-office-labadi-2.jpg',
                     'properties/commercial-office-labadi-3.jpg',
-                ]),
+                ],
             ],
         ];
 
@@ -235,11 +235,11 @@ class PropertySeeder extends Seeder
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/property-'.$i.'.jpg',
-                'images' => json_encode([
+                'images' => [
                     'properties/property-'.$i.'-1.jpg',
                     'properties/property-'.$i.'-2.jpg',
                     'properties/property-'.$i.'-3.jpg',
-                ]),
+                ],
             ]);
 
             // Attach random amenities
