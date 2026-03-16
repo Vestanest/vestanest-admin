@@ -1,49 +1,38 @@
 <x-filament-panels::page>
-    <div class="space-y-6">
-        @if (auth()->user()->hasRole('super_admin'))
-            <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold">Super Admin Control Center</h2>
-                        <p class="text-purple-100 mt-2">Complete system oversight and management</p>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-bold">{{ \App\Models\User::count() }}</div>
-                        <div class="text-purple-100">Total Users</div>
-                    </div>
+    <div class="space-y-8">
+        {{-- Creative Header Section --}}
+        <div
+            class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-900 shadow-lg ring-1 ring-gray-950/5 dark:ring-white/10">
+            <div class="relative p-8 md:p-12">
+                <div class="relative z-10">
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-950 dark:text-white md:text-4xl">
+                        Welcome back, {{ auth()->user()->first_name }}! 👋
+                    </h1>
+                    <p class="mt-4 max-w-2xl text-lg text-gray-500 dark:text-gray-400">
+                        @if (auth()->user()->hasRole('super_admin'))
+                            You have full control over the system. Monitor performance, manage roles, and oversee all
+                            activities.
+                        @elseif (auth()->user()->hasRole('admin'))
+                            Here's what's happening efficiently across your properties and user base today.
+                        @else
+                            Track your property performance and manage your inquiries efficiently.
+                        @endif
+                    </p>
                 </div>
-            </div>
-        @elseif (auth()->user()->hasRole('admin'))
-            <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold">Admin Management Hub</h2>
-                        <p class="text-blue-100 mt-2">Property and user management</p>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-bold">{{ \App\Models\Property::count() }}</div>
-                        <div class="text-blue-100">Total Properties</div>
-                    </div>
-                </div>
-            </div>
-        @elseif (auth()->user()->hasRole('agent'))
-            <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg p-6 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold">Agent Dashboard</h2>
-                        <p class="text-green-100 mt-2">Manage your properties and clients</p>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-3xl font-bold">{{ \App\Models\Property::where('agent_id', auth()->id())->count() }}</div>
-                        <div class="text-green-100">My Properties</div>
-                    </div>
-                </div>
-            </div>
-        @endif
 
-        <x-filament-widgets::widgets
-            :columns="$this->getColumns()"
-            :widgets="$this->getWidgets()"
-        />
+                {{-- Abstract Background Shapes --}}
+                <div
+                    class="absolute right-0 top-0 -mt-20 -mr-20 h-64 w-64 rounded-full bg-gradient-to-br from-primary-400/20 to-primary-600/20 blur-3xl">
+                </div>
+                <div
+                    class="absolute bottom-0 right-20 -mb-20 h-48 w-48 rounded-full bg-gradient-to-tr from-secondary-400/20 to-secondary-600/20 blur-2xl">
+                </div>
+            </div>
+        </div>
+
+        {{-- Widget Section --}}
+        <div>
+            <x-filament-widgets::widgets :columns="$this->getColumns()" :widgets="$this->getWidgets()" />
+        </div>
     </div>
 </x-filament-panels::page>

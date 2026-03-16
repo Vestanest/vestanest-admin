@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\PropertyController;
-use App\Http\Controllers\Api\V1\PropertyAmenityController;
-use App\Http\Controllers\Api\V1\PropertyViewController;
-use App\Http\Controllers\Api\V1\NewsletterController;
-use App\Http\Controllers\Api\V1\PropertyComparisonController;
+use App\Http\Controllers\Api\V1\ContactAgentController;
 use App\Http\Controllers\Api\V1\ContactMessageController;
 use App\Http\Controllers\Api\V1\InquiryController;
+use App\Http\Controllers\Api\V1\NewsletterController;
+use App\Http\Controllers\Api\V1\PropertyAmenityController;
+use App\Http\Controllers\Api\V1\PropertyComparisonController;
+use App\Http\Controllers\Api\V1\PropertyController;
+use App\Http\Controllers\Api\V1\PropertyViewController;
 use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\ScheduleViewingController;
-use App\Http\Controllers\Api\V1\ContactAgentController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
