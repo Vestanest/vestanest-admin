@@ -37,6 +37,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT || 22 }}
         script: |
+          export PATH="$PATH:/usr/local/bin:/usr/bin"
           cd "/home/sites/20a/6/60b6f7d62d/public_html/vestanest" && \
           git pull origin main && \
           composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev && \
