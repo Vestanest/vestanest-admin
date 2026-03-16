@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class PropertyComparison extends Model
 {
@@ -33,14 +33,15 @@ class PropertyComparison extends Model
 
     /**
      * Get the properties in this comparison.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function properties(): BelongsToMany
     {
         return $this->belongsToMany(Property::class, 'property_comparison_items', 'comparison_id', 'property_id')
-                    ->withPivot('order')
-                    ->orderBy('property_comparison_items.order');
+            ->withPivot('order')
+            ->orderBy('property_comparison_items.order');
     }
-
 
     /**
      * Add a property to the comparison.

@@ -101,7 +101,7 @@
                             $upcomingViewings = \App\Models\ScheduleViewing::whereHas('property', function($query) { $query->where('agent_id', auth()->id()); })->where('preferred_date', '>=', today())->orderBy('preferred_date')->limit(3)->get();
                         @endphp
 
-                        @forelse($upcomingViewings as $viewing)
+                        @forelse ($upcomingViewings as $viewing)
                             <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded">
                                 <div>
                                     <div class="font-medium text-sm">{{ $viewing->property->title }}</div>
