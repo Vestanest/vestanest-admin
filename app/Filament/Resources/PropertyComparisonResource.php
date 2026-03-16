@@ -11,7 +11,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PropertyComparisonResource extends Resource
 {
@@ -64,7 +63,7 @@ class PropertyComparisonResource extends Resource
                     ->label('User')
                     ->searchable()
                     ->sortable()
-                    ->formatStateUsing(fn ($record) => $record->user->first_name . ' ' . $record->user->last_name),
+                    ->formatStateUsing(fn ($record) => $record->user->first_name.' '.$record->user->last_name),
                 Tables\Columns\TextColumn::make('properties_count')
                     ->label('Properties')
                     ->counts('properties')

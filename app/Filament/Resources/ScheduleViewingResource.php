@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ScheduleViewingResource\Pages;
-use App\Filament\Resources\ScheduleViewingResource\RelationManagers;
 use App\Models\ScheduleViewing;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ScheduleViewingResource extends Resource
 {

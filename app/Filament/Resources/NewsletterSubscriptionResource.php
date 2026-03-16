@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsletterSubscriptionResource\Pages;
-use App\Filament\Resources\NewsletterSubscriptionResource\RelationManagers;
 use App\Models\NewsletterSubscription;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class NewsletterSubscriptionResource extends Resource
 {
@@ -34,23 +32,23 @@ class NewsletterSubscriptionResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active Subscription')
                             ->helperText('Toggle to activate or deactivate the subscription')
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Personal Details')
                     ->schema([
                         Forms\Components\TextInput::make('first_name')
                             ->maxLength(100)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('last_name')
                             ->maxLength(100)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
                     ->columns(2),
 
@@ -71,7 +69,7 @@ class NewsletterSubscriptionResource extends Resource
                             ->label('Subscribed At')
                             ->required()
                             ->default(now())
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\DateTimePicker::make('unsubscribed_at')
                             ->label('Unsubscribed At')
                             ->columnSpan(1),
@@ -152,7 +150,7 @@ class NewsletterSubscriptionResource extends Resource
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->action(fn (NewsletterSubscription $record) => $record->resubscribe())
-                    ->visible(fn (NewsletterSubscription $record) => !$record->is_active),
+                    ->visible(fn (NewsletterSubscription $record) => ! $record->is_active),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

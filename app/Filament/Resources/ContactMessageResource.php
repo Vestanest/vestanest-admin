@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactMessageResource\Pages;
-use App\Filament\Resources\ContactMessageResource\RelationManagers;
 use App\Models\ContactMessage;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContactMessageResource extends Resource
 {
@@ -32,21 +30,21 @@ class ContactMessageResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('phone')
                             ->tel()
                             ->maxLength(20)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('subject')
                             ->maxLength(255)
                             ->columnSpan(1),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Message Details')
                     ->schema([
@@ -56,13 +54,13 @@ class ContactMessageResource extends Resource
                         Forms\Components\Select::make('message_type')
                             ->options(ContactMessage::getTypes())
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Select::make('status')
                             ->options(ContactMessage::getStatuses())
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Technical Information')
                     ->schema([
@@ -100,6 +98,7 @@ class ContactMessageResource extends Resource
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) > 50 ? $state : null;
                     }),
                 Tables\Columns\BadgeColumn::make('message_type')

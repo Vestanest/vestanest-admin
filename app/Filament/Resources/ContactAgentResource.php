@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactAgentResource\Pages;
-use App\Filament\Resources\ContactAgentResource\RelationManagers;
 use App\Models\ContactAgent;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContactAgentResource extends Resource
 {
@@ -56,7 +54,7 @@ class ContactAgentResource extends Resource
                             ->disabled()
                             ->dehydrated(false),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
             ]);
     }
 

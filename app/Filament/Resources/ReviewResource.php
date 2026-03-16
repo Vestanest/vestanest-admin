@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReviewResource\Pages;
-use App\Filament\Resources\ReviewResource\RelationManagers;
 use App\Models\Review;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ReviewResource extends Resource
 {
@@ -34,16 +32,16 @@ class ReviewResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'first_name')
                             ->searchable()
                             ->preload()
                             ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->first_name} {$record->last_name} ({$record->email})")
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Review Details')
                     ->schema([
@@ -56,22 +54,22 @@ class ReviewResource extends Resource
                                 5 => '5 Stars - Excellent',
                             ])
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('title')
                             ->maxLength(255)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\RichEditor::make('comment')
                             ->required()
                             ->columnSpanFull(),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Review Status')
                     ->schema([
                         Forms\Components\Toggle::make('is_verified')
                             ->label('Verified Review')
                             ->helperText('Mark as verified if the reviewer is confirmed to have used the property')
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Toggle::make('is_approved')
                             ->label('Approved for Display')
                             ->helperText('Only approved reviews will be shown on the website')
@@ -91,6 +89,7 @@ class ReviewResource extends Resource
                     ->limit(30)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) > 30 ? $state : null;
                     }),
                 Tables\Columns\TextColumn::make('user.first_name')
@@ -99,19 +98,21 @@ class ReviewResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('rating')
-                    ->formatStateUsing(fn ($state) => str_repeat('★', $state) . str_repeat('☆', 5 - $state) . " ({$state}/5)")
+                    ->formatStateUsing(fn ($state) => str_repeat('★', $state).str_repeat('☆', 5 - $state)." ({$state}/5)")
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->limit(40)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) > 40 ? $state : null;
                     }),
                 Tables\Columns\TextColumn::make('comment')
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) > 50 ? $state : null;
                     })
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -175,7 +176,7 @@ class ReviewResource extends Resource
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->action(fn (Review $record) => $record->update(['is_approved' => true]))
-                    ->visible(fn (Review $record) => !$record->is_approved),
+                    ->visible(fn (Review $record) => ! $record->is_approved),
                 Tables\Actions\Action::make('disapprove')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')

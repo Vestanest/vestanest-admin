@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
@@ -34,40 +32,40 @@ class UserResource extends Resource
                             ->required()
                             ->maxLength(191)
                             ->unique(ignoreRecord: true)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('password')
                             ->password()
                             ->required(fn (string $context): bool => $context === 'create')
                             ->minLength(8)
                             ->dehydrated(fn ($state) => filled($state))
                             ->dehydrateStateUsing(fn ($state) => bcrypt($state))
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Personal Information')
                     ->schema([
                         Forms\Components\TextInput::make('first_name')
                             ->required()
                             ->maxLength(100)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('last_name')
                             ->required()
                             ->maxLength(100)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('phone')
                             ->tel()
                             ->maxLength(20)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\FileUpload::make('avatar_url')
                             ->label('Avatar')
                             ->image()
                             ->directory('avatars')
                             ->visibility('public')
                             ->maxSize(2048)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Account Status & Permissions')
                     ->schema([
@@ -75,26 +73,26 @@ class UserResource extends Resource
                             ->relationship('roles', 'name')
                             ->preload()
                             ->multiple()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Toggle::make('is_verified')
                             ->label('Email Verified')
                             ->helperText('Mark as verified if the user has confirmed their email')
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active Account')
                             ->helperText('Toggle to activate or deactivate the user account')
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Verification & Activity')
                     ->schema([
                         Forms\Components\DateTimePicker::make('email_verified_at')
                             ->label('Email Verified At')
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\DateTimePicker::make('phone_verified_at')
                             ->label('Phone Verified At')
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\DateTimePicker::make('last_login_at')
                             ->label('Last Login At')
                             ->disabled()
@@ -196,7 +194,7 @@ class UserResource extends Resource
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->action(fn (User $record) => $record->update(['is_active' => true]))
-                    ->visible(fn (User $record) => !$record->is_active),
+                    ->visible(fn (User $record) => ! $record->is_active),
                 Tables\Actions\Action::make('deactivate')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')

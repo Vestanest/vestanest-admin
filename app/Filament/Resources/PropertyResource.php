@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PropertyResource\Pages;
-use App\Filament\Resources\PropertyResource\RelationManagers;
 use App\Models\Property;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PropertyResource extends Resource
 {
@@ -247,7 +244,7 @@ class PropertyResource extends Resource
                 Tables\Columns\TextColumn::make('rating')
                     ->numeric()
                     ->sortable()
-                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 1) . ' ⭐' : 'No rating')
+                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 1).' ⭐' : 'No rating')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('owner.first_name')
                     ->searchable()

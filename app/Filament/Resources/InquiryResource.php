@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InquiryResource\Pages;
-use App\Filament\Resources\InquiryResource\RelationManagers;
 use App\Models\Inquiry;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class InquiryResource extends Resource
 {
@@ -34,33 +32,33 @@ class InquiryResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'first_name')
                             ->searchable()
                             ->preload()
                             ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->first_name} {$record->last_name} ({$record->email})")
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Contact Information')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TextInput::make('phone')
                             ->tel()
                             ->maxLength(20)
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Inquiry Details')
                     ->schema([
@@ -70,18 +68,18 @@ class InquiryResource extends Resource
                         Forms\Components\Select::make('inquiry_type')
                             ->options(Inquiry::getTypes())
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\Select::make('status')
                             ->options(Inquiry::getStatuses())
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
+                    ->columns(['lg' => 2]),
 
                 Forms\Components\Section::make('Scheduling')
                     ->schema([
                         Forms\Components\DatePicker::make('preferred_date')
-                            ->columnSpan(1),
+                            ->columnSpan(['lg' => 1]),
                         Forms\Components\TimePicker::make('preferred_time')
                             ->columnSpan(1),
                     ])
@@ -109,6 +107,7 @@ class InquiryResource extends Resource
                     ->limit(30)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
+
                         return strlen($state) > 30 ? $state : null;
                     }),
                 Tables\Columns\TextColumn::make('user.first_name')
