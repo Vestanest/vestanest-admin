@@ -15,11 +15,12 @@ class UserSeeder extends Seeder
     {
         // Create Super Admin
         $superAdmin = User::create([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
+            'first_name' => 'Michael',
+            'last_name' => 'Vesta',
             'email' => 'superadmin@vestanest.com',
             'phone' => '+233244123456',
             'password' => Hash::make('password'),
+            'avatar_url' => 'avatars/admin-avatar.jpg',
             'is_verified' => true,
             'is_active' => true,
             'email_verified_at' => now(),
@@ -30,11 +31,12 @@ class UserSeeder extends Seeder
 
         // Create Admin
         $admin = User::create([
-            'first_name' => 'Admin',
-            'last_name' => 'User',
+            'first_name' => 'David',
+            'last_name' => 'Chen',
             'email' => 'admin@vestanest.com',
             'phone' => '+233244123457',
             'password' => Hash::make('password'),
+            'avatar_url' => 'avatars/admin-avatar.jpg',
             'is_verified' => true,
             'is_active' => true,
             'email_verified_at' => now(),
@@ -45,11 +47,12 @@ class UserSeeder extends Seeder
 
         // Create Demo Agent
         $agent = User::create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
+            'first_name' => 'Sarah',
+            'last_name' => 'Jenkins',
             'email' => 'agent@vestanest.com',
             'phone' => '+233244123458',
             'password' => Hash::make('password'),
+            'avatar_url' => 'avatars/agent-avatar.jpg',
             'is_verified' => true,
             'is_active' => true,
             'email_verified_at' => now(),
@@ -60,11 +63,12 @@ class UserSeeder extends Seeder
 
         // Create Demo User
         $user = User::create([
-            'first_name' => 'Jane',
-            'last_name' => 'Smith',
+            'first_name' => 'Alex',
+            'last_name' => 'Thompson',
             'email' => 'user@vestanest.com',
             'phone' => '+233244123459',
             'password' => Hash::make('password'),
+            'avatar_url' => 'avatars/user-avatar.jpg',
             'is_verified' => true,
             'is_active' => true,
             'email_verified_at' => now(),
@@ -87,6 +91,7 @@ class UserSeeder extends Seeder
                 'email' => "agent{$i}@vestanest.com",
                 'phone' => '+233244'.str_pad(123460 + $i, 6, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password'),
+                'avatar_url' => 'avatars/agent-avatar.jpg',
                 'is_verified' => true,
                 'is_active' => true,
                 'email_verified_at' => now(),
@@ -104,6 +109,7 @@ class UserSeeder extends Seeder
                 'email' => "user{$i}@vestanest.com",
                 'phone' => '+233244'.str_pad(123470 + $i, 6, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password'),
+                'avatar_url' => 'avatars/user-avatar.jpg',
                 'is_verified' => fake()->boolean(80), // 80% verified
                 'is_active' => true,
                 'email_verified_at' => fake()->boolean(80) ? now() : null,
