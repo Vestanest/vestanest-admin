@@ -86,7 +86,7 @@
               { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": { "raw": "{{baseUrl}}/api/v1/auth/profile", "host": ["{{baseUrl}}"], "path": ["api","v1","auth","profile"] },
-            "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Jane\",\n  \"last_name\": \"Doe\",\n  \"phone\": "+233200000001"\n}" }
+            "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Jane\",\n  \"last_name\": \"Doe\",\n  \"phone\": \"+233200000001\"\n}" }
           }
         },
         {
