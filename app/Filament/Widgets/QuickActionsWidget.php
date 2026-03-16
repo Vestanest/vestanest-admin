@@ -2,21 +2,23 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\Widget;
-use Illuminate\Support\Facades\Auth;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Widgets\Widget;
+use Illuminate\Support\Facades\Auth;
 
-class QuickActionsWidget extends Widget implements HasForms, HasActions
+class QuickActionsWidget extends Widget implements HasActions, HasForms
 {
     use InteractsWithActions, InteractsWithForms;
 
     protected static string $view = 'filament.widgets.quick-actions-widget';
+
     protected static ?int $sort = 5;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     public function getActions(): array
     {
@@ -54,7 +56,7 @@ class QuickActionsWidget extends Widget implements HasForms, HasActions
                     ->icon('heroicon-m-home')
                     ->color('primary')
                     ->url(route('filament.admin.resources.properties.index', [
-                        'tableFilters' => ['agent_id' => ['value' => $user->id]]
+                        'tableFilters' => ['agent_id' => ['value' => $user->id]],
                     ])),
 
                 Action::make('myInquiries')

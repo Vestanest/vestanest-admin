@@ -3,9 +3,6 @@
 namespace App\Filament\Widgets;
 
 use App\Models\ActivityLog;
-use App\Models\Inquiry;
-use App\Models\Property;
-use App\Models\Review;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -15,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 class RecentActivityWidget extends BaseWidget
 {
     protected static ?int $sort = 2;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -76,11 +74,11 @@ class RecentActivityWidget extends BaseWidget
 
         // Agent can only see activities related to their properties
         if ($user->hasRole('agent')) {
-            return $query->where(function($q) use ($user) {
+            return $query->where(function ($q) use ($user) {
                 $q->where('log_name', 'property')
-                  ->whereHas('subject', function($subQuery) use ($user) {
-                      $subQuery->where('agent_id', $user->id);
-                  });
+                    ->whereHas('subject', function ($subQuery) use ($user) {
+                        $subQuery->where('agent_id', $user->id);
+                    });
             });
         }
 

@@ -41,5 +41,3 @@ class InquiryReceived extends Mailable
         return [];
     }
 }
-
-

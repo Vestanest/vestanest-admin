@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Review extends Model
 {
@@ -99,6 +99,7 @@ class Review extends Model
                 $stars .= '☆';
             }
         }
+
         return $stars;
     }
 
@@ -107,7 +108,7 @@ class Review extends Model
      */
     public function getRatingTextAttribute(): string
     {
-        return match($this->rating) {
+        return match ($this->rating) {
             1 => 'Poor',
             2 => 'Fair',
             3 => 'Good',

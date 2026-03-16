@@ -30,7 +30,7 @@ class AdminNewContactAgent extends Mailable
     {
         return new Content(
             view: 'emails.admin.contact_agent_new',
-            with: [ 'contact' => $this->contact ]
+            with: ['contact' => $this->contact]
         );
     }
 
@@ -39,5 +39,3 @@ class AdminNewContactAgent extends Mailable
         return [];
     }
 }
-
-

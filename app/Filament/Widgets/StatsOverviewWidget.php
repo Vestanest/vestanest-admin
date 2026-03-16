@@ -2,15 +2,12 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Property;
-use App\Models\User;
 use App\Models\Inquiry;
-use App\Models\Review;
-use App\Models\ContactMessage;
 use App\Models\NewsletterSubscription;
+use App\Models\Property;
 use App\Models\PropertyView;
 use App\Models\ScheduleViewing;
-use App\Models\ContactAgent;
+use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Auth;
@@ -22,102 +19,63 @@ class StatsOverviewWidget extends BaseWidget
     protected function getStats(): array
     {
         $user = Auth::user();
-        $stats = [];
 
-        // Super Admin and Admin can see all stats
+        // Super Admin & Admin: 4 Key System Metrics
         if ($user->hasRole(['super_admin', 'admin'])) {
-            $stats = array_merge($stats, $this->getSystemStats());
-        }
+            return [
+                Stat::make('Total Users', User::count())
+                    ->description('Registered users')
+                    ->descriptionIcon('heroicon-m-users')
+                    ->color('info')
+                    ->chart([7, 3, 4, 5, 6, 3, 5, 3]),
 
-        // Agent-specific stats
-        if ($user->hasRole('agent')) {
-            $stats = array_merge($stats, $this->getAgentStats($user));
-        }
+                Stat::make('Total Properties', Property::count())
+                    ->description('All listings')
+                    ->descriptionIcon('heroicon-m-home')
+                    ->color('primary')
+                    ->chart([15, 4, 10, 2, 12, 4, 12]),
 
-        // All roles can see basic property stats
-        $stats = array_merge($stats, $this->getPropertyStats($user));
-
-        return $stats;
-    }
-
-    private function getSystemStats(): array
-    {
-        return [
-            Stat::make('Total Users', User::count())
-                ->description('Registered users')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('info'),
-
-            Stat::make('Active Users', User::where('is_active', true)->count())
-                ->description('Currently active')
-                ->descriptionIcon('heroicon-m-check-circle')
-                ->color('success'),
-
-            Stat::make('Total Properties', Property::count())
-                ->description('All properties')
-                ->descriptionIcon('heroicon-m-home')
-                ->color('primary'),
-
-            Stat::make('Featured Properties', Property::where('is_featured', true)->count())
-                ->description('Premium listings')
-                ->descriptionIcon('heroicon-m-star')
-                ->color('warning'),
-        ];
-    }
-
-    private function getAgentStats($user): array
-    {
-        return [
-            Stat::make('My Properties', Property::where('agent_id', $user->id)->count())
-                ->description('Properties I manage')
-                ->descriptionIcon('heroicon-m-home')
-                ->color('primary'),
-
-            Stat::make('My Inquiries', Inquiry::whereHas('property', function($query) use ($user) {
-                $query->where('agent_id', $user->id);
-            })->count())
-                ->description('Inquiries for my properties')
-                ->descriptionIcon('heroicon-m-envelope')
-                ->color('info'),
-
-            Stat::make('Scheduled Viewings', ScheduleViewing::whereHas('property', function($query) use ($user) {
-                $query->where('agent_id', $user->id);
-            })->count())
-                ->description('Upcoming viewings')
-                ->descriptionIcon('heroicon-m-calendar-days')
-                ->color('success'),
-        ];
-    }
-
-    private function getPropertyStats($user): array
-    {
-        $baseStats = [
-            Stat::make('Available Properties', Property::where('status', 'available')->count())
-                ->description('Ready for viewing')
-                ->descriptionIcon('heroicon-m-check-circle')
-                ->color('success'),
-
-            Stat::make('Pending Inquiries', Inquiry::where('status', 'new')->count())
-                ->description('Awaiting response')
-                ->descriptionIcon('heroicon-m-clock')
-                ->color('warning'),
-        ];
-
-        // Super Admin and Admin can see additional stats
-        if ($user->hasRole(['super_admin', 'admin'])) {
-            $baseStats = array_merge($baseStats, [
-                Stat::make('Newsletter Subscribers', NewsletterSubscription::where('is_active', true)->count())
-                    ->description('Active subscribers')
+                Stat::make('Active Subscribers', NewsletterSubscription::where('is_active', true)->count())
+                    ->description('Newsletter reach')
                     ->descriptionIcon('heroicon-m-envelope')
+                    ->color('success'),
+
+                Stat::make('Pending Inquiries', Inquiry::where('status', 'new')->count())
+                    ->description('Needs attention')
+                    ->descriptionIcon('heroicon-m-bell')
+                    ->color('warning'),
+            ];
+        }
+
+        // Agent: 4 Key Personal Metrics
+        if ($user->hasRole('agent')) {
+            return [
+                Stat::make('My Properties', Property::where('agent_id', $user->id)->count())
+                    ->description('Active listings')
+                    ->descriptionIcon('heroicon-m-home')
+                    ->color('primary'),
+
+                Stat::make('Total Views', PropertyView::whereIn('property_id', $user->properties->pluck('id'))->count())
+                    ->description('Across all properties')
+                    ->descriptionIcon('heroicon-m-eye')
                     ->color('info'),
 
-                Stat::make('Property Views Today', PropertyView::whereDate('viewed_at', today())->count())
-                    ->description('Today\'s views')
-                    ->descriptionIcon('heroicon-m-eye')
-                    ->color('primary'),
-            ]);
+                Stat::make('Pending Inquiries', Inquiry::whereHas('property', function ($q) use ($user) {
+                    $q->where('agent_id', $user->id);
+                })->where('status', 'new')->count())
+                    ->description('New leads')
+                    ->descriptionIcon('heroicon-m-user-group')
+                    ->color('warning'),
+
+                Stat::make('Scheduled Viewings', ScheduleViewing::whereHas('property', function ($q) use ($user) {
+                    $q->where('agent_id', $user->id);
+                })->where('preferred_date', '>=', now())->count())
+                    ->description('Upcoming appointments')
+                    ->descriptionIcon('heroicon-m-calendar')
+                    ->color('success'),
+            ];
         }
 
-        return $baseStats;
+        return [];
     }
 }

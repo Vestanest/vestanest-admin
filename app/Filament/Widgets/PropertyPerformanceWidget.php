@@ -3,16 +3,14 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Property;
-use App\Models\PropertyView;
-use App\Models\Inquiry;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class PropertyPerformanceWidget extends ChartWidget
 {
     protected static ?int $sort = 3;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 1;
 
     protected function getData(): array
     {

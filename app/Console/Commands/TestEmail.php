@@ -2,14 +2,15 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 use App\Mail\NewsletterSubscriptionConfirmed;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class TestEmail extends Command
 {
     protected $signature = 'test:email {email}';
+
     protected $description = 'Test email sending functionality';
 
     public function handle()
@@ -28,17 +29,12 @@ class TestEmail extends Command
                 'subscribed_at' => now(),
             ]));
 
-            $this->info("✅ Email sent successfully!");
+            $this->info('✅ Email sent successfully!');
             Log::info("Test email sent successfully to: {$email}");
 
         } catch (\Exception $e) {
-            $this->error("❌ Email failed to send: " . $e->getMessage());
-            Log::error("Test email failed to send to: {$email} - Error: " . $e->getMessage());
+            $this->error('❌ Email failed to send: '.$e->getMessage());
+            Log::error("Test email failed to send to: {$email} - Error: ".$e->getMessage());
         }
     }
 }
-
-
-
-
-

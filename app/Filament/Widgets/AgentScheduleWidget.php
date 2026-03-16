@@ -6,13 +6,13 @@ use App\Models\ScheduleViewing;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class AgentScheduleWidget extends BaseWidget
 {
     protected static ?int $sort = 3;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -21,7 +21,7 @@ class AgentScheduleWidget extends BaseWidget
         return $table
             ->query(
                 ScheduleViewing::query()
-                    ->whereHas('property', function($query) use ($user) {
+                    ->whereHas('property', function ($query) use ($user) {
                         $query->where('agent_id', $user->id);
                     })
                     ->with('property')

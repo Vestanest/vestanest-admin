@@ -30,7 +30,7 @@ class AdminNewContactMessage extends Mailable
     {
         return new Content(
             view: 'emails.admin.contact_message_new',
-            with: [ 'messageData' => $this->messageData ]
+            with: ['messageData' => $this->messageData]
         );
     }
 
@@ -39,5 +39,3 @@ class AdminNewContactMessage extends Mailable
         return [];
     }
 }
-
-

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Property;
 use App\Models\PropertyComparison;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PropertyComparisonController extends Controller
@@ -18,10 +18,10 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -62,8 +62,8 @@ class PropertyComparisonController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'comparisons' => $transformedComparisons
-            ]
+                'comparisons' => $transformedComparisons,
+            ],
         ]);
     }
 
@@ -74,10 +74,10 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -85,10 +85,10 @@ class PropertyComparisonController extends Controller
             ->where('user_id', $user->id)
             ->find($id);
 
-        if (!$comparison) {
+        if (! $comparison) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property comparison not found'
+                'message' => 'Property comparison not found',
             ], 404);
         }
 
@@ -144,8 +144,8 @@ class PropertyComparisonController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'comparison' => $transformedComparison
-            ]
+                'comparison' => $transformedComparison,
+            ],
         ]);
     }
 
@@ -156,10 +156,10 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -171,16 +171,16 @@ class PropertyComparisonController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $comparison = PropertyComparison::where('user_id', $user->id)->find($id);
 
-        if (!$comparison) {
+        if (! $comparison) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property comparison not found'
+                'message' => 'Property comparison not found',
             ], 404);
         }
 
@@ -194,7 +194,7 @@ class PropertyComparisonController extends Controller
             if ($existingComparison) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'A comparison with this name already exists'
+                    'message' => 'A comparison with this name already exists',
                 ], 400);
             }
         }
@@ -210,8 +210,8 @@ class PropertyComparisonController extends Controller
                     'name' => $comparison->name,
                     'property_count' => $comparison->property_count,
                     'updated_at' => $comparison->updated_at,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -222,10 +222,10 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -239,7 +239,7 @@ class PropertyComparisonController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -251,7 +251,7 @@ class PropertyComparisonController extends Controller
         if ($existingComparison) {
             return response()->json([
                 'success' => false,
-                'message' => 'A comparison with this name already exists'
+                'message' => 'A comparison with this name already exists',
             ], 400);
         }
 
@@ -304,8 +304,8 @@ class PropertyComparisonController extends Controller
             'success' => true,
             'message' => 'Property comparison created successfully',
             'data' => [
-                'comparison' => $transformedComparison
-            ]
+                'comparison' => $transformedComparison,
+            ],
         ], 201);
     }
 
@@ -316,10 +316,10 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -331,23 +331,23 @@ class PropertyComparisonController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $comparison = PropertyComparison::where('user_id', $user->id)->find($id);
 
-        if (!$comparison) {
+        if (! $comparison) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property comparison not found'
+                'message' => 'Property comparison not found',
             ], 404);
         }
 
         if ($comparison->isFull()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Comparison is full. Maximum ' . PropertyComparison::getMaxProperties() . ' properties allowed.'
+                'message' => 'Comparison is full. Maximum '.PropertyComparison::getMaxProperties().' properties allowed.',
             ], 400);
         }
 
@@ -356,7 +356,7 @@ class PropertyComparisonController extends Controller
         if ($comparison->hasProperty($property)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property is already in this comparison'
+                'message' => 'Property is already in this comparison',
             ], 400);
         }
 
@@ -377,8 +377,8 @@ class PropertyComparisonController extends Controller
                     'location' => $property->location,
                     'price' => $property->price,
                     'formatted_price' => $property->formatted_price,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -389,10 +389,10 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -404,25 +404,25 @@ class PropertyComparisonController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $comparison = PropertyComparison::where('user_id', $user->id)->find($id);
 
-        if (!$comparison) {
+        if (! $comparison) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property comparison not found'
+                'message' => 'Property comparison not found',
             ], 404);
         }
 
         $property = Property::find($request->property_id);
 
-        if (!$comparison->hasProperty($property)) {
+        if (! $comparison->hasProperty($property)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property is not in this comparison'
+                'message' => 'Property is not in this comparison',
             ], 400);
         }
 
@@ -440,8 +440,8 @@ class PropertyComparisonController extends Controller
                 'property' => [
                     'id' => $property->id,
                     'title' => $property->title,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -452,19 +452,19 @@ class PropertyComparisonController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
         $comparison = PropertyComparison::where('user_id', $user->id)->find($id);
 
-        if (!$comparison) {
+        if (! $comparison) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property comparison not found'
+                'message' => 'Property comparison not found',
             ], 404);
         }
 
@@ -472,7 +472,7 @@ class PropertyComparisonController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Property comparison deleted successfully'
+            'message' => 'Property comparison deleted successfully',
         ]);
     }
 }

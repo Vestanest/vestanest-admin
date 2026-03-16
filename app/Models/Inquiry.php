@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Inquiry extends Model
 {
@@ -128,7 +128,7 @@ class Inquiry extends Model
      */
     public function getFormattedPreferredDateTimeAttribute(): string
     {
-        if (!$this->preferred_date) {
+        if (! $this->preferred_date) {
             return 'Not specified';
         }
 

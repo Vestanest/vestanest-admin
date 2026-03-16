@@ -65,8 +65,18 @@ class ReviewSeeder extends Seeder
             ],
         ];
 
-        foreach ($sampleReviews as $review) {
-            Review::create($review);
+        $usedCombinations = [];
+        foreach ($sampleReviews as $reviewData) {
+            $combination = $reviewData['user_id'] . '-' . $reviewData['property_id'];
+            if (in_array($combination, $usedCombinations)) {
+                $reviewData['user_id'] = $users->random()->id; // Try to resolve collision
+                $combination = $reviewData['user_id'] . '-' . $reviewData['property_id'];
+            }
+            $usedCombinations[] = $combination;
+            Review::updateOrCreate(
+                ['property_id' => $reviewData['property_id'], 'user_id' => $reviewData['user_id']],
+                $reviewData
+            );
         }
 
         // Create additional random reviews
@@ -125,11 +135,11 @@ class ReviewSeeder extends Seeder
             Review::create([
                 'property_id' => $property->id,
                 'user_id' => $user->id,
-                'rating' => fake()->numberBetween(1, 5),
+                'rating' => fake()->randomElement([4, 5, 5, 5, 4, 3]), // Favoring higher ratings for a "premium" feel
                 'title' => fake()->randomElement($reviewTitles),
                 'comment' => fake()->randomElement($reviewComments),
-                'is_verified' => fake()->boolean(60), // 60% verified
-                'is_approved' => fake()->boolean(80), // 80% approved
+                'is_verified' => fake()->boolean(80), 
+                'is_approved' => true,
                 'created_at' => fake()->dateTimeBetween('-90 days', 'now'),
                 'updated_at' => fake()->dateTimeBetween('-90 days', 'now'),
             ]);

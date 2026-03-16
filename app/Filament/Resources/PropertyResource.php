@@ -42,13 +42,15 @@ class PropertyResource extends Resource
                     ->schema([
                         Forms\Components\FileUpload::make('image')
                             ->image()
+                            ->disk('public')
                             ->directory('properties')
                             ->visibility('public')
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('images')
                             ->image()
                             ->multiple()
-                            ->directory('properties/gallery')
+                            ->disk('public')
+                            ->directory('properties')
                             ->visibility('public')
                             ->columnSpanFull(),
                     ]),
@@ -180,6 +182,7 @@ class PropertyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
+                    ->disk('public')
                     ->circular()
                     ->size(50),
                 Tables\Columns\TextColumn::make('title')

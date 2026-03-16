@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Review;
 use App\Models\Property;
-use Illuminate\Http\Request;
+use App\Models\Review;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
@@ -14,10 +14,10 @@ class ReviewController extends Controller
     public function store(Request $request): JsonResponse
     {
         $user = $request->user();
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -43,7 +43,7 @@ class ReviewController extends Controller
         if ($existing) {
             return response()->json([
                 'success' => false,
-                'message' => 'You have already reviewed this property'
+                'message' => 'You have already reviewed this property',
             ], 400);
         }
 

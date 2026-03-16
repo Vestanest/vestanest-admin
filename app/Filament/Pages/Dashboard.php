@@ -2,41 +2,44 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\StatsOverviewWidget;
-use App\Filament\Widgets\RecentActivityWidget;
 use App\Filament\Widgets\PropertyPerformanceWidget;
-use App\Filament\Widgets\UserGrowthWidget;
 use App\Filament\Widgets\QuickActionsWidget;
+use App\Filament\Widgets\RecentActivityWidget;
+use App\Filament\Widgets\RoleManagementWidget;
+use App\Filament\Widgets\StatsOverviewWidget;
+use App\Filament\Widgets\SystemHealthWidget;
+use App\Filament\Widgets\UserGrowthWidget;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
-    protected static string $view = 'filament.pages.dashboard';
 
     public function getWidgets(): array
     {
         $user = Auth::user();
         $widgets = [
-            StatsOverviewWidget::class,
             QuickActionsWidget::class,
+            StatsOverviewWidget::class,
         ];
 
         // Super Admin gets all widgets
         if ($user->hasRole('super_admin')) {
             $widgets = array_merge($widgets, [
-                RecentActivityWidget::class,
+                SystemHealthWidget::class,
+                RoleManagementWidget::class,
                 PropertyPerformanceWidget::class,
                 UserGrowthWidget::class,
+                RecentActivityWidget::class,
             ]);
         }
 
         // Admin gets most widgets except user growth
         if ($user->hasRole('admin')) {
             $widgets = array_merge($widgets, [
-                RecentActivityWidget::class,
                 PropertyPerformanceWidget::class,
+                RecentActivityWidget::class,
             ]);
         }
 
@@ -50,7 +53,7 @@ class Dashboard extends BaseDashboard
         return $widgets;
     }
 
-    public function getColumns(): int | string | array
+    public function getColumns(): int|string|array
     {
         return 2;
     }

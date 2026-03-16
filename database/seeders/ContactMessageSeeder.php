@@ -84,7 +84,13 @@ class ContactMessageSeeder extends Seeder
                 'email' => fake()->safeEmail(),
                 'phone' => '+233244'.fake()->numerify('######'),
                 'subject' => fake()->sentence(3),
-                'message' => fake()->paragraphs(2, true),
+                'message' => fake()->randomElement([
+                    'I am interested in viewing one of your featured properties. Could you please let me know the process for scheduling a visit?',
+                    'Your platform is great! I have a question about the insurance requirements for renting a commercial space.',
+                    'Hello, I would like to inquire about a potential partnership with your agency for our upcoming development project.',
+                    'Can you provide more details about the security features in the luxury penthouse listings?',
+                    'I am looking for a quiet area for my family. Do you have any recommendations for nearby neighborhoods?'
+                ]),
                 'message_type' => fake()->randomElement($messageTypes),
                 'status' => fake()->randomElement($statuses),
                 'ip_address' => fake()->ipv4(),

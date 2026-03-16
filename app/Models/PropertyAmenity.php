@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class PropertyAmenity extends Model
 {
@@ -45,7 +45,7 @@ class PropertyAmenity extends Model
     public function scopeSearch($query, $search)
     {
         return $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
+            ->orWhere('description', 'like', "%{$search}%");
     }
 
     /**
@@ -57,7 +57,7 @@ class PropertyAmenity extends Model
             ->logOnly(['name', 'description'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Property Amenity {$eventName}")
+            ->setDescriptionForEvent(fn (string $eventName) => "Property Amenity {$eventName}")
             ->useLogName('property_amenity');
     }
 }

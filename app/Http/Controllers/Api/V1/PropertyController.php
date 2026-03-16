@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Property;
-use App\Models\PropertyAmenity;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PropertyController extends Controller
@@ -40,7 +39,7 @@ class PropertyController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -51,9 +50,9 @@ class PropertyController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%")
-                  ->orWhere('city', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%");
             });
         }
 
@@ -199,10 +198,10 @@ class PropertyController extends Controller
                     'applied_filters' => $request->only([
                         'search', 'property_type', 'price_type', 'min_price', 'max_price',
                         'bedrooms', 'bathrooms', 'location', 'city', 'region',
-                        'is_featured', 'status', 'sort_by', 'amenities'
-                    ])
-                ]
-            ]
+                        'is_featured', 'status', 'sort_by', 'amenities',
+                    ]),
+                ],
+            ],
         ]);
     }
 
@@ -214,10 +213,10 @@ class PropertyController extends Controller
         $property = Property::with(['owner', 'agent', 'amenities', 'reviews'])
             ->find($id);
 
-        if (!$property) {
+        if (! $property) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property not found'
+                'message' => 'Property not found',
             ], 404);
         }
 
@@ -287,8 +286,8 @@ class PropertyController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'property' => $transformedProperty
-            ]
+                'property' => $transformedProperty,
+            ],
         ]);
     }
 
@@ -305,7 +304,7 @@ class PropertyController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -355,8 +354,8 @@ class PropertyController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'properties' => $transformedProperties
-            ]
+                'properties' => $transformedProperties,
+            ],
         ]);
     }
 }

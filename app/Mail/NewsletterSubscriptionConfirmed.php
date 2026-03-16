@@ -41,8 +41,3 @@ class NewsletterSubscriptionConfirmed extends Mailable
         return [];
     }
 }
-
-
-
-
-

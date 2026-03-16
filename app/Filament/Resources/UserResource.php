@@ -60,6 +60,7 @@ class UserResource extends Resource
                         Forms\Components\FileUpload::make('avatar_url')
                             ->label('Avatar')
                             ->image()
+                            ->disk('public')
                             ->directory('avatars')
                             ->visibility('public')
                             ->maxSize(2048)
@@ -111,6 +112,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar_url')
                     ->label('Avatar')
+                    ->disk('public')
                     ->circular()
                     ->defaultImageUrl(url('/images/default-avatar.png')),
                 Tables\Columns\TextColumn::make('first_name')

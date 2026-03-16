@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\NewsletterSubscription;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 use App\Mail\NewsletterSubscriptionConfirmed;
+use App\Models\NewsletterSubscription;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class NewsletterController extends Controller
 {
@@ -34,7 +34,7 @@ class NewsletterController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -45,7 +45,7 @@ class NewsletterController extends Controller
             if ($existingSubscription->is_active) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Email is already subscribed to our newsletter'
+                    'message' => 'Email is already subscribed to our newsletter',
                 ], 400);
             } else {
                 // Resubscribe existing user
@@ -68,7 +68,7 @@ class NewsletterController extends Controller
                     ]));
                     Log::info("Newsletter welcome email sent successfully to: {$existingSubscription->email}");
                 } catch (\Exception $e) {
-                    Log::error("Failed to send newsletter welcome email to: {$existingSubscription->email} - Error: " . $e->getMessage());
+                    Log::error("Failed to send newsletter welcome email to: {$existingSubscription->email} - Error: ".$e->getMessage());
                 }
 
                 return response()->json([
@@ -83,8 +83,8 @@ class NewsletterController extends Controller
                             'is_active' => $existingSubscription->is_active,
                             'preferences' => $existingSubscription->preferences,
                             'subscribed_at' => $existingSubscription->subscribed_at,
-                        ]
-                    ]
+                        ],
+                    ],
                 ]);
             }
         }
@@ -111,7 +111,7 @@ class NewsletterController extends Controller
             ]));
             Log::info("Newsletter welcome email sent successfully to: {$subscription->email}");
         } catch (\Exception $e) {
-            Log::error("Failed to send newsletter welcome email to: {$subscription->email} - Error: " . $e->getMessage());
+            Log::error("Failed to send newsletter welcome email to: {$subscription->email} - Error: ".$e->getMessage());
         }
 
         return response()->json([
@@ -126,8 +126,8 @@ class NewsletterController extends Controller
                     'is_active' => $subscription->is_active,
                     'preferences' => $subscription->preferences,
                     'subscribed_at' => $subscription->subscribed_at,
-                ]
-            ]
+                ],
+            ],
         ], 201);
     }
 
@@ -144,23 +144,23 @@ class NewsletterController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $subscription = NewsletterSubscription::where('email', $request->email)->first();
 
-        if (!$subscription) {
+        if (! $subscription) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email not found in our newsletter subscriptions'
+                'message' => 'Email not found in our newsletter subscriptions',
             ], 404);
         }
 
-        if (!$subscription->is_active) {
+        if (! $subscription->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email is already unsubscribed from our newsletter'
+                'message' => 'Email is already unsubscribed from our newsletter',
             ], 400);
         }
 
@@ -175,8 +175,8 @@ class NewsletterController extends Controller
                     'email' => $subscription->email,
                     'is_active' => $subscription->is_active,
                     'unsubscribed_at' => $subscription->unsubscribed_at,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -198,23 +198,23 @@ class NewsletterController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $subscription = NewsletterSubscription::where('email', $request->email)->first();
 
-        if (!$subscription) {
+        if (! $subscription) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email not found in our newsletter subscriptions'
+                'message' => 'Email not found in our newsletter subscriptions',
             ], 404);
         }
 
-        if (!$subscription->is_active) {
+        if (! $subscription->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cannot update preferences for unsubscribed email'
+                'message' => 'Cannot update preferences for unsubscribed email',
             ], 400);
         }
 
@@ -234,8 +234,8 @@ class NewsletterController extends Controller
                     'is_active' => $subscription->is_active,
                     'preferences' => $subscription->preferences,
                     'subscribed_at' => $subscription->subscribed_at,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -252,19 +252,19 @@ class NewsletterController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $subscription = NewsletterSubscription::where('email', $request->email)->first();
 
-        if (!$subscription) {
+        if (! $subscription) {
             return response()->json([
                 'success' => true,
                 'data' => [
                     'is_subscribed' => false,
-                    'message' => 'Email is not subscribed to our newsletter'
-                ]
+                    'message' => 'Email is not subscribed to our newsletter',
+                ],
             ]);
         }
 
@@ -281,8 +281,8 @@ class NewsletterController extends Controller
                     'preferences' => $subscription->preferences,
                     'subscribed_at' => $subscription->subscribed_at,
                     'unsubscribed_at' => $subscription->unsubscribed_at,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -300,7 +300,7 @@ class NewsletterController extends Controller
                 ->count(),
             'subscribers_this_week' => NewsletterSubscription::whereBetween('subscribed_at', [
                 Carbon::now()->startOfWeek(),
-                Carbon::now()->endOfWeek()
+                Carbon::now()->endOfWeek(),
             ])->count(),
             'unsubscribers_this_month' => NewsletterSubscription::whereMonth('unsubscribed_at', Carbon::now()->month)
                 ->whereYear('unsubscribed_at', Carbon::now()->year)
@@ -310,8 +310,8 @@ class NewsletterController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'statistics' => $stats
-            ]
+                'statistics' => $stats,
+            ],
         ]);
     }
 
@@ -331,7 +331,7 @@ class NewsletterController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -350,8 +350,8 @@ class NewsletterController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('email', 'like', "%{$search}%")
-                  ->orWhere('first_name', 'like', "%{$search}%")
-                  ->orWhere('last_name', 'like', "%{$search}%");
+                    ->orWhere('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%");
             });
         }
 
@@ -387,8 +387,8 @@ class NewsletterController extends Controller
                     'total' => $subscriptions->total(),
                     'from' => $subscriptions->firstItem(),
                     'to' => $subscriptions->lastItem(),
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

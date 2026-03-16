@@ -100,7 +100,13 @@ class InquirySeeder extends Seeder
                 'name' => fake()->name(),
                 'email' => fake()->safeEmail(),
                 'phone' => '+233244'.fake()->numerify('######'),
-                'message' => fake()->paragraphs(2, true),
+                'message' => fake()->randomElement([
+                    'I would like to know if this property is still available for a quick viewing tomorrow.',
+                    'What is the minimum lease term for this apartment? I am looking to move in by next month.',
+                    'Is the price negotiable? I am a cash buyer and ready to close as soon as possible.',
+                    'Does this villa come with a backup generator and water storage system?',
+                    'I am very interested in this location. Could you send more interior photos and a floor plan?'
+                ]),
                 'inquiry_type' => fake()->randomElement($inquiryTypes),
                 'status' => fake()->randomElement($statuses),
                 'preferred_date' => fake()->boolean(60) ? fake()->dateTimeBetween('now', '+30 days') : null,

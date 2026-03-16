@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 
 class ActivityLog extends Activity
@@ -85,7 +84,7 @@ class ActivityLog extends Activity
      */
     public function getSubjectNameAttribute(): string
     {
-        if (!$this->subject) {
+        if (! $this->subject) {
             return 'Unknown';
         }
 
@@ -99,7 +98,7 @@ class ActivityLog extends Activity
      */
     public function getCauserNameAttribute(): string
     {
-        if (!$this->causer) {
+        if (! $this->causer) {
             return 'System';
         }
 

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Property;
 use App\Models\PropertyView;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PropertyViewController extends Controller
 {
@@ -26,16 +26,16 @@ class PropertyViewController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         // Check if property exists
         $property = Property::find($request->property_id);
-        if (!$property) {
+        if (! $property) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property not found'
+                'message' => 'Property not found',
             ], 404);
         }
 
@@ -68,8 +68,8 @@ class PropertyViewController extends Controller
                         'property_id' => $existingView->property_id,
                         'viewed_at' => $existingView->viewed_at,
                         'is_duplicate' => true,
-                    ]
-                ]
+                    ],
+                ],
             ]);
         }
 
@@ -100,8 +100,8 @@ class PropertyViewController extends Controller
                     'id' => $property->id,
                     'title' => $property->title,
                     'views_count' => $property->views_count,
-                ]
-            ]
+                ],
+            ],
         ], 201);
     }
 
@@ -118,7 +118,7 @@ class PropertyViewController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -158,8 +158,8 @@ class PropertyViewController extends Controller
                     'total' => $views->total(),
                     'from' => $views->firstItem(),
                     'to' => $views->lastItem(),
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -170,10 +170,10 @@ class PropertyViewController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Authentication required'
+                'message' => 'Authentication required',
             ], 401);
         }
 
@@ -219,8 +219,8 @@ class PropertyViewController extends Controller
                     'total' => $views->total(),
                     'from' => $views->firstItem(),
                     'to' => $views->lastItem(),
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -239,7 +239,7 @@ class PropertyViewController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -262,7 +262,7 @@ class PropertyViewController extends Controller
             'views_today' => PropertyView::whereDate('viewed_at', Carbon::today())->count(),
             'views_this_week' => PropertyView::whereBetween('viewed_at', [
                 Carbon::now()->startOfWeek(),
-                Carbon::now()->endOfWeek()
+                Carbon::now()->endOfWeek(),
             ])->count(),
             'views_this_month' => PropertyView::whereMonth('viewed_at', Carbon::now()->month)
                 ->whereYear('viewed_at', Carbon::now()->year)
@@ -286,8 +286,8 @@ class PropertyViewController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'statistics' => $stats
-            ]
+                'statistics' => $stats,
+            ],
         ]);
     }
 }

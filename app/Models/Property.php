@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Property extends Model
 {
@@ -153,7 +153,6 @@ class Property extends Model
         return $query->where('is_featured', true);
     }
 
-
     /**
      * Scope a query to only include available properties.
      */
@@ -191,7 +190,7 @@ class Property extends Model
      */
     public function getFormattedPriceAttribute(): string
     {
-        return 'GH¢ ' . number_format((float) $this->price, 2);
+        return 'GH¢ '.number_format((float) $this->price, 2);
     }
 
     /**
@@ -242,11 +241,11 @@ class Property extends Model
                 'city',
                 'region',
                 'owner_id',
-                'agent_id'
+                'agent_id',
             ])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Property {$eventName}")
+            ->setDescriptionForEvent(fn (string $eventName) => "Property {$eventName}")
             ->useLogName('property');
     }
 }

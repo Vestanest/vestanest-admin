@@ -41,5 +41,3 @@ class ScheduleViewingConfirmed extends Mailable
         return [];
     }
 }
-
-

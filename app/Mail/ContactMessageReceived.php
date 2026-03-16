@@ -41,5 +41,3 @@ class ContactMessageReceived extends Mailable
         return [];
     }
 }
-
-

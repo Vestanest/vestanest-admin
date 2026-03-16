@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\PropertyAmenity;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PropertyAmenityController extends Controller
@@ -24,7 +24,7 @@ class PropertyAmenityController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -65,8 +65,8 @@ class PropertyAmenityController extends Controller
                     'total' => $amenities->total(),
                     'from' => $amenities->firstItem(),
                     'to' => $amenities->lastItem(),
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -77,10 +77,10 @@ class PropertyAmenityController extends Controller
     {
         $amenity = PropertyAmenity::with('properties')->find($id);
 
-        if (!$amenity) {
+        if (! $amenity) {
             return response()->json([
                 'success' => false,
-                'message' => 'Property amenity not found'
+                'message' => 'Property amenity not found',
             ], 404);
         }
 
@@ -109,8 +109,8 @@ class PropertyAmenityController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'amenity' => $transformedAmenity
-            ]
+                'amenity' => $transformedAmenity,
+            ],
         ]);
     }
 
@@ -127,7 +127,7 @@ class PropertyAmenityController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -150,8 +150,8 @@ class PropertyAmenityController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'amenities' => $transformedAmenities
-            ]
+                'amenities' => $transformedAmenities,
+            ],
         ]);
     }
 
@@ -179,10 +179,10 @@ class PropertyAmenityController extends Controller
                 'categories' => [
                     [
                         'name' => 'All Amenities',
-                        'amenities' => $transformedAmenities
-                    ]
-                ]
-            ]
+                        'amenities' => $transformedAmenities,
+                    ],
+                ],
+            ],
         ]);
     }
 }

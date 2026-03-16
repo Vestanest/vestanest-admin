@@ -10,14 +10,15 @@ use Illuminate\Support\Facades\DB;
 class UserGrowthWidget extends ChartWidget
 {
     protected static ?int $sort = 4;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 1;
 
     protected function getData(): array
     {
         $user = Auth::user();
 
         // Only Super Admin and Admin can see user growth data
-        if (!$user->hasRole(['super_admin', 'admin'])) {
+        if (! $user->hasRole(['super_admin', 'admin'])) {
             return [
                 'datasets' => [],
                 'labels' => [],
@@ -67,9 +68,9 @@ class UserGrowthWidget extends ChartWidget
     {
         // Get user growth for the last 30 days
         $users = User::select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('COUNT(*) as count')
-            )
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('COUNT(*) as count')
+        )
             ->where('created_at', '>=', now()->subDays(30))
             ->groupBy('date')
             ->orderBy('date')

@@ -30,7 +30,7 @@ class AdminNewScheduleViewing extends Mailable
     {
         return new Content(
             view: 'emails.admin.schedule_viewing_new',
-            with: [ 'schedule' => $this->schedule ]
+            with: ['schedule' => $this->schedule]
         );
     }
 
@@ -39,5 +39,3 @@ class AdminNewScheduleViewing extends Mailable
         return [];
     }
 }
-
-

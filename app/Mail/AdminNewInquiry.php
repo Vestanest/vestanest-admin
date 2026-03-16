@@ -30,7 +30,7 @@ class AdminNewInquiry extends Mailable
     {
         return new Content(
             view: 'emails.admin.inquiry_new',
-            with: [ 'inquiry' => $this->inquiry ]
+            with: ['inquiry' => $this->inquiry]
         );
     }
 
@@ -39,5 +39,3 @@ class AdminNewInquiry extends Mailable
         return [];
     }
 }
-
-

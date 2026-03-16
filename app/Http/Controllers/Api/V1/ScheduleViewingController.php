@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\ScheduleViewing;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ScheduleViewingConfirmed;
 use App\Mail\AdminNewScheduleViewing;
+use App\Mail\ScheduleViewingConfirmed;
+use App\Models\ScheduleViewing;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleViewingController extends Controller
 {
@@ -71,7 +71,7 @@ class ScheduleViewingController extends Controller
                 if ($property && $property->owner && $property->owner->email) {
                     $ccEmails[] = $property->owner->email;
                 }
-                if (!empty($ccEmails)) {
+                if (! empty($ccEmails)) {
                     Mail::to($adminEmail ?: $schedule->email)->cc($ccEmails)->send(new AdminNewScheduleViewing([
                         'id' => $schedule->id,
                         'property_id' => $schedule->property_id,

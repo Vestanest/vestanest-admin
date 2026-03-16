@@ -2,10 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\User;
-use App\Models\Property;
-use App\Models\Inquiry;
 use App\Models\ActivityLog;
+use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 class SystemHealthWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     protected function getStats(): array
     {
@@ -60,15 +59,20 @@ class SystemHealthWidget extends BaseWidget
 
         $score -= min($recentErrors * 2, 15);
 
-        return max($score, 0) . '%';
+        return max($score, 0).'%';
     }
 
     private function getHealthColor(): string
     {
         $score = (int) str_replace('%', '', $this->getSystemHealthScore());
 
-        if ($score >= 90) return 'success';
-        if ($score >= 70) return 'warning';
+        if ($score >= 90) {
+            return 'success';
+        }
+        if ($score >= 70) {
+            return 'warning';
+        }
+
         return 'danger';
     }
 
@@ -76,7 +80,8 @@ class SystemHealthWidget extends BaseWidget
     {
         try {
             $size = DB::select("SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'size' FROM information_schema.tables WHERE table_schema = DATABASE()")[0]->size ?? 0;
-            return $size . ' MB';
+
+            return $size.' MB';
         } catch (\Exception $e) {
             return 'N/A';
         }
@@ -98,18 +103,26 @@ class SystemHealthWidget extends BaseWidget
             ->where('event', 'error')
             ->count();
 
-        if ($totalActivities === 0) return '0%';
+        if ($totalActivities === 0) {
+            return '0%';
+        }
 
         $rate = ($errors / $totalActivities) * 100;
-        return round($rate, 1) . '%';
+
+        return round($rate, 1).'%';
     }
 
     private function getErrorRateColor(): string
     {
         $rate = (float) str_replace('%', '', $this->getErrorRate());
 
-        if ($rate <= 1) return 'success';
-        if ($rate <= 5) return 'warning';
+        if ($rate <= 1) {
+            return 'success';
+        }
+        if ($rate <= 5) {
+            return 'warning';
+        }
+
         return 'danger';
     }
 }

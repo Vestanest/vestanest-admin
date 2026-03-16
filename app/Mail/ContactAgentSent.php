@@ -41,5 +41,3 @@ class ContactAgentSent extends Mailable
         return [];
     }
 }
-
-

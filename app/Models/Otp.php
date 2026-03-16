@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Otp extends Model
 {
@@ -64,6 +64,7 @@ class Otp extends Model
 
         if ($otp) {
             $otp->update(['is_used' => true]);
+
             return true;
         }
 
@@ -84,6 +85,6 @@ class Otp extends Model
     public function scopeValid($query)
     {
         return $query->where('is_used', false)
-                    ->where('expires_at', '>', Carbon::now());
+            ->where('expires_at', '>', Carbon::now());
     }
 }

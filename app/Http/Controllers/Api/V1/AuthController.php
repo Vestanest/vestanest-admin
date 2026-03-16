@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Otp;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
-use Illuminate\Validation\ValidationException;
+use App\Models\Otp;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+
 class AuthController extends Controller
 {
     /**
@@ -34,7 +33,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -68,8 +67,8 @@ class AuthController extends Controller
                     'phone' => $user->phone,
                     'is_verified' => $user->is_verified,
                     'is_active' => $user->is_active,
-                ]
-            ]
+                ],
+            ],
         ], 201);
     }
 
@@ -87,30 +86,30 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'User not found'
+                'message' => 'User not found',
             ], 404);
         }
 
         if ($user->is_verified) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email is already verified'
+                'message' => 'Email is already verified',
             ], 400);
         }
 
-        if (!Otp::verifyOtp($request->email, $request->otp_code, 'email_verification')) {
+        if (! Otp::verifyOtp($request->email, $request->otp_code, 'email_verification')) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid or expired OTP'
+                'message' => 'Invalid or expired OTP',
             ], 400);
         }
 
@@ -132,8 +131,8 @@ class AuthController extends Controller
                     'phone' => $user->phone,
                     'is_verified' => $user->is_verified,
                     'is_active' => $user->is_active,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -150,23 +149,23 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'User not found'
+                'message' => 'User not found',
             ], 404);
         }
 
         if ($user->is_verified) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email is already verified'
+                'message' => 'Email is already verified',
             ], 400);
         }
 
@@ -176,7 +175,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'OTP sent successfully'
+            'message' => 'OTP sent successfully',
         ]);
     }
 
@@ -194,23 +193,23 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials',
             ], 401);
         }
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Account is deactivated'
+                'message' => 'Account is deactivated',
             ], 401);
         }
 
@@ -235,8 +234,8 @@ class AuthController extends Controller
                     'last_login_at' => $user->last_login_at,
                 ],
                 'token' => $token,
-                'token_type' => 'Bearer'
-            ]
+                'token_type' => 'Bearer',
+            ],
         ]);
     }
 
@@ -249,7 +248,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Logout successful'
+            'message' => 'Logout successful',
         ]);
     }
 
@@ -262,7 +261,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Logged out from all devices'
+            'message' => 'Logged out from all devices',
         ]);
     }
 
@@ -290,8 +289,8 @@ class AuthController extends Controller
                     'last_login_at' => $user->last_login_at,
                     'created_at' => $user->created_at,
                     'updated_at' => $user->updated_at,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -313,7 +312,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -332,8 +331,8 @@ class AuthController extends Controller
                     'avatar_url' => $user->avatar_url,
                     'is_verified' => $user->is_verified,
                     'is_active' => $user->is_active,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -351,26 +350,26 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = $request->user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Current password is incorrect'
+                'message' => 'Current password is incorrect',
             ], 400);
         }
 
         $user->update([
-            'password' => Hash::make($request->new_password)
+            'password' => Hash::make($request->new_password),
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Password changed successfully'
+            'message' => 'Password changed successfully',
         ]);
     }
 
@@ -387,16 +386,16 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'User not found'
+                'message' => 'User not found',
             ], 404);
         }
 
@@ -406,7 +405,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Password reset OTP sent to your email'
+            'message' => 'Password reset OTP sent to your email',
         ]);
     }
 
@@ -425,29 +424,29 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'User not found'
+                'message' => 'User not found',
             ], 404);
         }
 
-        if (!Otp::verifyOtp($request->email, $request->otp_code, 'password_reset')) {
+        if (! Otp::verifyOtp($request->email, $request->otp_code, 'password_reset')) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid or expired OTP'
+                'message' => 'Invalid or expired OTP',
             ], 400);
         }
 
         // Update password
         $user->update([
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
 
         // Revoke all existing tokens
@@ -455,7 +454,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Password reset successfully. Please login again.'
+            'message' => 'Password reset successfully. Please login again.',
         ]);
     }
 
@@ -477,8 +476,8 @@ class AuthController extends Controller
             'message' => 'Token refreshed successfully',
             'data' => [
                 'token' => $token,
-                'token_type' => 'Bearer'
-            ]
+                'token_type' => 'Bearer',
+            ],
         ]);
     }
 
@@ -491,7 +490,7 @@ class AuthController extends Controller
             Mail::to($email)->send(new OtpMail($otpCode, $type));
             Log::info("OTP Email sent successfully for {$type}: {$email}");
         } catch (\Exception $e) {
-            Log::error("Failed to send OTP email for {$type}: {$email} - Error: " . $e->getMessage());
+            Log::error("Failed to send OTP email for {$type}: {$email} - Error: ".$e->getMessage());
             // For development/testing, still log the OTP
             Log::info("OTP Code for {$type}: {$email} - Code: {$otpCode}");
         }

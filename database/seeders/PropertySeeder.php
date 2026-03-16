@@ -80,9 +80,9 @@ class PropertySeeder extends Seeder
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/modern-villa-east-legon.jpg',
                 'images' => [
-                    'properties/modern-villa-east-legon-1.jpg',
-                    'properties/modern-villa-east-legon-2.jpg',
-                    'properties/modern-villa-east-legon-3.jpg',
+                    'properties/modern-villa-east-legon.jpg',
+                    'properties/luxury-penthouse-accra.jpg',
+                    'properties/luxury-penthouse-accra-1.jpg',
                 ],
             ],
             [
@@ -113,11 +113,9 @@ class PropertySeeder extends Seeder
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/beachfront-house-tema.jpg',
                 'images' => [
-                    'properties/beachfront-house-tema-1.jpg',
-                    'properties/beachfront-house-tema-2.jpg',
-                    'properties/beachfront-house-tema-3.jpg',
-                    'properties/beachfront-house-tema-4.jpg',
-                    'properties/beachfront-house-tema-5.jpg',
+                    'properties/beachfront-house-tema.jpg',
+                    'properties/luxury-penthouse-accra.jpg',
+                    'properties/modern-villa-east-legon.jpg',
                 ],
             ],
             [
@@ -148,8 +146,8 @@ class PropertySeeder extends Seeder
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/cozy-apartment-osu.jpg',
                 'images' => [
-                    'properties/cozy-apartment-osu-1.jpg',
-                    'properties/cozy-apartment-osu-2.jpg',
+                    'properties/cozy-apartment-osu.jpg',
+                    'properties/luxury-penthouse-accra-1.jpg',
                 ],
             ],
             [
@@ -180,9 +178,8 @@ class PropertySeeder extends Seeder
                 'agent_id' => $agents->random()->id,
                 'image' => 'properties/commercial-office-labadi.jpg',
                 'images' => [
-                    'properties/commercial-office-labadi-1.jpg',
-                    'properties/commercial-office-labadi-2.jpg',
-                    'properties/commercial-office-labadi-3.jpg',
+                    'properties/commercial-office-labadi.jpg',
+                    'properties/modern-villa-east-legon.jpg',
                 ],
             ],
         ];
@@ -208,9 +205,32 @@ class PropertySeeder extends Seeder
         $regions = ['Greater Accra', 'Ashanti', 'Northern', 'Central', 'Western'];
 
         for ($i = 1; $i <= 20; $i++) {
+            $pool = [
+                'properties/luxury-penthouse-accra.jpg',
+                'properties/modern-villa-east-legon.jpg',
+                'properties/beachfront-house-tema.jpg',
+                'properties/cozy-apartment-osu.jpg',
+                'properties/commercial-office-labadi.jpg'
+            ];
+            $mainImage = fake()->randomElement($pool);
+            
             $property = Property::create([
-                'title' => fake()->sentence(4),
-                'description' => fake()->paragraph(2),
+                'title' => fake()->randomElement([
+                    'Grand Residence in ' . fake()->randomElement($cities),
+                    'Elegant Estate ' . fake()->word(),
+                    'Modern Sanctuary in ' . fake()->word(),
+                    'Urban Oasis ' . fake()->word(),
+                    'Prime Waterfront ' . fake()->word(),
+                    'Sunset Ridge Villa',
+                    'The Heights ' . fake()->word()
+                ]),
+                'description' => fake()->randomElement([
+                    'A breathtaking property featuring modern architecture and premium finishes throughout.',
+                    'Exquisite living space designed for comfort and luxury in a prime location.',
+                    'Stunning contemporary home with spacious layouts and top-of-the-line amenities.',
+                    'Beautifully appointed residence offering privacy, style, and unmatched convenience.',
+                    'A masterfully crafted architectural gem perfect for sophisticated urban living.'
+                ]),
                 'detailed_description' => fake()->paragraphs(3, true),
                 'location' => fake()->streetAddress(),
                 'city' => fake()->randomElement($cities),
@@ -234,11 +254,11 @@ class PropertySeeder extends Seeder
                 'rating' => fake()->randomFloat(1, 3.0, 5.0),
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
-                'image' => 'properties/property-'.$i.'.jpg',
+                'image' => $mainImage,
                 'images' => [
-                    'properties/property-'.$i.'-1.jpg',
-                    'properties/property-'.$i.'-2.jpg',
-                    'properties/property-'.$i.'-3.jpg',
+                    fake()->randomElement($pool),
+                    fake()->randomElement($pool),
+                    fake()->randomElement($pool),
                 ],
             ]);
 

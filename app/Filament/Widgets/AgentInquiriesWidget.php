@@ -6,13 +6,13 @@ use App\Models\Inquiry;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class AgentInquiriesWidget extends BaseWidget
 {
     protected static ?int $sort = 2;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -21,7 +21,7 @@ class AgentInquiriesWidget extends BaseWidget
         return $table
             ->query(
                 Inquiry::query()
-                    ->whereHas('property', function($query) use ($user) {
+                    ->whereHas('property', function ($query) use ($user) {
                         $query->where('agent_id', $user->id);
                     })
                     ->with(['property', 'user'])
