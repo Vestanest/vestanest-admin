@@ -66,19 +66,19 @@ jobs:
           --exclude=node_modules \
           --exclude=vendor \
           --exclude=.git \
-            --exclude=.env \
-            --exclude=storage/logs \
-            --exclude=storage/framework/cache \
-            --exclude=storage/framework/sessions \
-            --exclude=storage/framework/views \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}
+          --exclude=.env \
+          --exclude=storage/logs \
+          --exclude=storage/framework/cache \
+          --exclude=storage/framework/sessions \
+          --exclude=storage/framework/views \
+          ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}
 
     - name: Run Laravel commands on server
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd ${{ secrets.SSH_PATH }}
-          /usr/php83/usr/bin/php /usr/local/bin/composer install --no-dev
-          /usr/php83/usr/bin/php artisan migrate --force
-            /usr/php83/usr/bin/php artisan optimize:clear
-            /usr/php83/usr/bin/php artisan optimize
-          EOF
+          php /usr/local/bin/composer install --no-dev
+          php artisan migrate --force
+          php artisan optimize:clear
+          php artisan optimize
+        EOF
