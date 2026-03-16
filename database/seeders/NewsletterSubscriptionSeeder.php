@@ -22,7 +22,7 @@ class NewsletterSubscriptionSeeder extends Seeder
                     'property_types' => ['apartment', 'house'],
                     'price_range' => ['100000', '500000'],
                     'locations' => ['Accra', 'Kumasi'],
-                    'frequency' => 'weekly'
+                    'frequency' => 'weekly',
                 ]),
                 'subscribed_at' => now()->subDays(30),
                 'unsubscribed_at' => null,
@@ -36,7 +36,7 @@ class NewsletterSubscriptionSeeder extends Seeder
                     'property_types' => ['villa', 'house'],
                     'price_range' => ['500000', '2000000'],
                     'locations' => ['Accra'],
-                    'frequency' => 'daily'
+                    'frequency' => 'daily',
                 ]),
                 'subscribed_at' => now()->subDays(15),
                 'unsubscribed_at' => null,
@@ -50,7 +50,7 @@ class NewsletterSubscriptionSeeder extends Seeder
                     'property_types' => ['apartment'],
                     'price_range' => ['50000', '200000'],
                     'locations' => ['Kumasi', 'Tamale'],
-                    'frequency' => 'monthly'
+                    'frequency' => 'monthly',
                 ]),
                 'subscribed_at' => now()->subDays(60),
                 'unsubscribed_at' => now()->subDays(10),
@@ -64,7 +64,7 @@ class NewsletterSubscriptionSeeder extends Seeder
                     'property_types' => ['commercial', 'office'],
                     'price_range' => ['10000', '50000'],
                     'locations' => ['Accra', 'Tema'],
-                    'frequency' => 'weekly'
+                    'frequency' => 'weekly',
                 ]),
                 'subscribed_at' => now()->subDays(45),
                 'unsubscribed_at' => null,
@@ -78,7 +78,7 @@ class NewsletterSubscriptionSeeder extends Seeder
                     'property_types' => ['land'],
                     'price_range' => ['50000', '500000'],
                     'locations' => ['Greater Accra', 'Ashanti'],
-                    'frequency' => 'monthly'
+                    'frequency' => 'monthly',
                 ]),
                 'subscribed_at' => now()->subDays(20),
                 'unsubscribed_at' => null,
@@ -106,10 +106,10 @@ class NewsletterSubscriptionSeeder extends Seeder
                     'property_types' => fake()->randomElements($propertyTypes, fake()->numberBetween(1, 3)),
                     'price_range' => [
                         fake()->numberBetween(10000, 100000),
-                        fake()->numberBetween(200000, 2000000)
+                        fake()->numberBetween(200000, 2000000),
                     ],
                     'locations' => fake()->randomElements($locations, fake()->numberBetween(1, 3)),
-                    'frequency' => fake()->randomElement($frequencies)
+                    'frequency' => fake()->randomElement($frequencies),
                 ]),
                 'subscribed_at' => fake()->dateTimeBetween('-90 days', 'now'),
                 'unsubscribed_at' => $isActive ? null : fake()->dateTimeBetween('-30 days', 'now'),

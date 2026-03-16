@@ -49,7 +49,7 @@ class PropertySeeder extends Seeder
                     'properties/luxury-penthouse-accra-1.jpg',
                     'properties/luxury-penthouse-accra-2.jpg',
                     'properties/luxury-penthouse-accra-3.jpg',
-                    'properties/luxury-penthouse-accra-4.jpg'
+                    'properties/luxury-penthouse-accra-4.jpg',
                 ]),
             ],
             [
@@ -82,7 +82,7 @@ class PropertySeeder extends Seeder
                 'images' => json_encode([
                     'properties/modern-villa-east-legon-1.jpg',
                     'properties/modern-villa-east-legon-2.jpg',
-                    'properties/modern-villa-east-legon-3.jpg'
+                    'properties/modern-villa-east-legon-3.jpg',
                 ]),
             ],
             [
@@ -117,7 +117,7 @@ class PropertySeeder extends Seeder
                     'properties/beachfront-house-tema-2.jpg',
                     'properties/beachfront-house-tema-3.jpg',
                     'properties/beachfront-house-tema-4.jpg',
-                    'properties/beachfront-house-tema-5.jpg'
+                    'properties/beachfront-house-tema-5.jpg',
                 ]),
             ],
             [
@@ -149,7 +149,7 @@ class PropertySeeder extends Seeder
                 'image' => 'properties/cozy-apartment-osu.jpg',
                 'images' => json_encode([
                     'properties/cozy-apartment-osu-1.jpg',
-                    'properties/cozy-apartment-osu-2.jpg'
+                    'properties/cozy-apartment-osu-2.jpg',
                 ]),
             ],
             [
@@ -182,7 +182,7 @@ class PropertySeeder extends Seeder
                 'images' => json_encode([
                     'properties/commercial-office-labadi-1.jpg',
                     'properties/commercial-office-labadi-2.jpg',
-                    'properties/commercial-office-labadi-3.jpg'
+                    'properties/commercial-office-labadi-3.jpg',
                 ]),
             ],
         ];
@@ -234,11 +234,11 @@ class PropertySeeder extends Seeder
                 'rating' => fake()->randomFloat(1, 3.0, 5.0),
                 'owner_id' => $agents->random()->id,
                 'agent_id' => $agents->random()->id,
-                'image' => 'properties/property-' . $i . '.jpg',
+                'image' => 'properties/property-'.$i.'.jpg',
                 'images' => json_encode([
-                    'properties/property-' . $i . '-1.jpg',
-                    'properties/property-' . $i . '-2.jpg',
-                    'properties/property-' . $i . '-3.jpg'
+                    'properties/property-'.$i.'-1.jpg',
+                    'properties/property-'.$i.'-2.jpg',
+                    'properties/property-'.$i.'-3.jpg',
                 ]),
             ]);
 

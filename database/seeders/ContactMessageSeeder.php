@@ -82,7 +82,7 @@ class ContactMessageSeeder extends Seeder
             ContactMessage::create([
                 'name' => fake()->name(),
                 'email' => fake()->safeEmail(),
-                'phone' => '+233244' . fake()->numerify('######'),
+                'phone' => '+233244'.fake()->numerify('######'),
                 'subject' => fake()->sentence(3),
                 'message' => fake()->paragraphs(2, true),
                 'message_type' => fake()->randomElement($messageTypes),

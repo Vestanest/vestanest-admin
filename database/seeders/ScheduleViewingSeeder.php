@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\ScheduleViewing;
 use App\Models\Property;
+use App\Models\ScheduleViewing;
 use Illuminate\Database\Seeder;
 
 class ScheduleViewingSeeder extends Seeder
@@ -73,7 +73,7 @@ class ScheduleViewingSeeder extends Seeder
                 'property_id' => $properties->random()->id,
                 'full_name' => fake()->name(),
                 'email' => fake()->safeEmail(),
-                'phone_number' => '+233244' . fake()->numerify('######'),
+                'phone_number' => '+233244'.fake()->numerify('######'),
                 'preferred_date' => fake()->dateTimeBetween('now', '+14 days'),
                 'preferred_time' => fake()->randomElement(['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM']),
                 'notes' => fake()->boolean(60) ? fake()->sentence() : null,

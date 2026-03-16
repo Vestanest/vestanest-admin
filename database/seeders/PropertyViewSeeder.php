@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\PropertyView;
 use App\Models\Property;
+use App\Models\PropertyView;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

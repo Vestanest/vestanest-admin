@@ -32,7 +32,7 @@ return new class extends Migration
                 'townhouse',
                 'office',
                 'land',
-                'commercial'
+                'commercial',
             ]);
             $table->integer('bedrooms')->default(0);
             $table->integer('bathrooms')->default(0);
@@ -47,7 +47,7 @@ return new class extends Migration
                 'sold',
                 'rented',
                 'pending',
-                'off_market'
+                'off_market',
             ])->default('available');
             $table->integer('views_count')->default(0);
             $table->integer('favorites_count')->default(0);

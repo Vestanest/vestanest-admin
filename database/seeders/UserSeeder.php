@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -86,7 +85,7 @@ class UserSeeder extends Seeder
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
                 'email' => "agent{$i}@vestanest.com",
-                'phone' => '+233244' . str_pad(123460 + $i, 6, '0', STR_PAD_LEFT),
+                'phone' => '+233244'.str_pad(123460 + $i, 6, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password'),
                 'is_verified' => true,
                 'is_active' => true,
@@ -103,7 +102,7 @@ class UserSeeder extends Seeder
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
                 'email' => "user{$i}@vestanest.com",
-                'phone' => '+233244' . str_pad(123470 + $i, 6, '0', STR_PAD_LEFT),
+                'phone' => '+233244'.str_pad(123470 + $i, 6, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password'),
                 'is_verified' => fake()->boolean(80), // 80% verified
                 'is_active' => true,
@@ -120,7 +119,7 @@ class UserSeeder extends Seeder
                 'first_name' => fake()->firstName(),
                 'last_name' => fake()->lastName(),
                 'email' => "admin{$i}@vestanest.com",
-                'phone' => '+233244' . str_pad(123480 + $i, 6, '0', STR_PAD_LEFT),
+                'phone' => '+233244'.str_pad(123480 + $i, 6, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password'),
                 'is_verified' => true,
                 'is_active' => true,

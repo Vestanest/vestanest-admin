@@ -23,14 +23,14 @@ return new class extends Migration
                 'viewing',
                 'information',
                 'offer',
-                'general'
+                'general',
             ]);
             $table->enum('status', [
                 'new',
                 'contacted',
                 'scheduled',
                 'completed',
-                'cancelled'
+                'cancelled',
             ])->default('new');
             $table->date('preferred_date')->nullable();
             $table->time('preferred_time')->nullable();

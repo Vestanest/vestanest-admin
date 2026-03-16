@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Review;
 use App\Models\Property;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -113,7 +113,7 @@ class ReviewSeeder extends Seeder
         for ($i = 1; $i <= $maxReviews; $i++) {
             $property = $properties->random();
             $user = $users->random();
-            $combination = $user->id . '-' . $property->id;
+            $combination = $user->id.'-'.$property->id;
 
             // Skip if this combination already exists
             if (in_array($combination, $usedCombinations)) {

@@ -22,13 +22,13 @@ return new class extends Migration
                 'general',
                 'support',
                 'partnership',
-                'feedback'
+                'feedback',
             ])->default('general');
             $table->enum('status', [
                 'new',
                 'read',
                 'replied',
-                'closed'
+                'closed',
             ])->default('new');
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();

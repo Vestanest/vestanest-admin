@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\PropertyComparison;
 use App\Models\Property;
+use App\Models\PropertyComparison;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -70,7 +70,7 @@ class PropertyComparisonSeeder extends Seeder
         for ($i = 1; $i <= 15; $i++) {
             $comparison = PropertyComparison::create([
                 'user_id' => $users->random()->id,
-                'name' => fake()->randomElement($comparisonNames) . ' - ' . fake()->word(),
+                'name' => fake()->randomElement($comparisonNames).' - '.fake()->word(),
                 'created_at' => fake()->dateTimeBetween('-30 days', 'now'),
             ]);
 

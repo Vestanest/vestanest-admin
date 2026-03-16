@@ -76,7 +76,7 @@ class ContactAgentSeeder extends Seeder
                 'property_id' => $properties->random()->id,
                 'full_name' => fake()->name(),
                 'email' => fake()->safeEmail(),
-                'phone_number' => '+233244' . fake()->numerify('######'),
+                'phone_number' => '+233244'.fake()->numerify('######'),
                 'message' => fake()->randomElement($messages),
                 'created_at' => fake()->dateTimeBetween('-30 days', 'now'),
                 'updated_at' => fake()->dateTimeBetween('-30 days', 'now'),

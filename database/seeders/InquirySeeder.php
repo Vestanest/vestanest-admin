@@ -99,7 +99,7 @@ class InquirySeeder extends Seeder
                 'user_id' => fake()->boolean(70) ? $users->random()->id : null, // 70% have users
                 'name' => fake()->name(),
                 'email' => fake()->safeEmail(),
-                'phone' => '+233244' . fake()->numerify('######'),
+                'phone' => '+233244'.fake()->numerify('######'),
                 'message' => fake()->paragraphs(2, true),
                 'inquiry_type' => fake()->randomElement($inquiryTypes),
                 'status' => fake()->randomElement($statuses),
